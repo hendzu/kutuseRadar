@@ -6,7 +6,7 @@
 CREATE TABLE chain (
     id int  NOT NULL,
     name varchar(225)  NOT NULL,
-    logo bytea  NOT NULL,
+    logo bytea,
     status varchar(1)  NOT NULL,
     CONSTRAINT chain_name UNIQUE (name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
     CONSTRAINT chain_pk PRIMARY KEY (id)
@@ -83,7 +83,7 @@ CREATE TABLE station_picture (
 -- Table: user
 CREATE TABLE "user" (
     id int  NOT NULL,
-    username int  NOT NULL,
+    username varchar(255)  NOT NULL,
     password varchar(255)  NOT NULL,
     role varchar(255)  NOT NULL,
     status varchar(1)  NOT NULL,

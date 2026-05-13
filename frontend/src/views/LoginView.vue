@@ -56,7 +56,10 @@ export default {
         LoginService.sendGetLoginRequest(this.username, this.password)
           .then((response) => this.handleLoginResponse(response))
           .catch((error) => this.handleLoginError(error))
-          .finally()
+          .finally(()=>{
+            localStorage.setItem('userId','2')
+            localStorage.setItem('roleName','adminim')
+          })
       } else {
         this.errorMessage = 'Täida kõik väljad'
       }

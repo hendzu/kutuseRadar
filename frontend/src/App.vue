@@ -1,4 +1,29 @@
-<script setup></script>
+<script>
+import AuthService from '@/auth/AuthService.js'
+
+export default {
+  name: 'App',
+  data() {
+    return {
+      isLoggedIn: false,
+    }
+  },
+  methods: {
+    updateLoggedInStatus() {
+      this.isLoggedIn = AuthService.isLoggedIn()
+    },
+
+    executeLogOut() {
+      localStorage.removeItem('userId')
+      localStorage.removeItem('roleName')
+      this.updateLoggedInStatus()
+    },
+  },
+  beforeMount() {
+    this.updateLoggedInStatus()
+  },
+}
+</script>
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiar">
     <div class="container-fluid">
@@ -38,5 +63,5 @@
       </div>
     </div>
   </nav>
-  <RouterView />
+  <RouterView @event-user-logged-in="updateLoggedInStatus" />
 </template>

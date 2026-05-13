@@ -2,7 +2,7 @@
   <div class="row justify-content-center mt-5">
     <h1 class="text-center">Logi sisse</h1>
     <div class="row justify-content-center" v-if="errorMessage">
-      <div class="col col-3 text-danger">{{ errorMessage }}</div>
+      <AlertError :error-message="errorMessage"/>
     </div>
     <div class="col col-3 mb-4">
       <input
@@ -34,9 +34,11 @@
 
 <script>
 import LoginService from '@/api-services/LoginService.js'
+import AlertError from '@/components/alerts/AlertError.vue'
 
 export default {
   name: 'LoginView',
+  components: { AlertError },
   data() {
     return {
       username: '',
@@ -54,26 +56,27 @@ export default {
     },
     login() {
       //   this.startSpinner()
-      //   this.resetErrorMessage()
+      this.resetErrorMessage()
       if (this.allFormFieldsAreCorrect()) {
         LoginService.sendGetLoginRequest(this.username, this.password)
           .then((response) => this.handleLoginResponse(response))
           .catch((error) => this.handleLoginError(error))
           .finally(() => {
-            localStorage.setItem('userId', '2')
-            localStorage.setItem('roleName', 'adminim')
-            this.$router.push('/')
             this.$emit('event-user-logged-in')
           })
       } else {
         this.errorMessage = 'Täida kõik väljad'
       }
     },
+    resetErrorMessage() {
+      this.errorMessage = ''
+    },
     handleLoginResponse(response) {
       this.loginResponse = response.data
       localStorage.setItem('userId', this.loginResponse.userId)
       localStorage.setItem('roleName', this.loginResponse.roleName)
       this.$emit('event-user-logged-in')
+      this.$router.push('/')
     },
   },
 }

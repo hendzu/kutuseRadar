@@ -22,5 +22,9 @@
   </div>
 </template>
 
-<style scoped></style>
-<script setup></script>
+<script>
+export default {
+  name:'RegisterView'
+}
+
+</script>

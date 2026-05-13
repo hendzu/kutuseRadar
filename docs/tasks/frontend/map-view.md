@@ -3,12 +3,10 @@
 Route: `/map`
 
 ## UI — logged out
-- [ ] Navbar: Kütusehinnad | Kaart | Logi sisse | Registreeru
 - [ ] Text: "Kaardilt leiad mugavalt lähima tankla"
 - [ ] Map component with station markers
 
 ## UI — logged in
-- [ ] Navbar: Kütusehinnad | Kaart | Lisa hind | Halda soodustusi | Logi välja
 - [ ] Same map with station markers, favorites visually distinguished
 
 ## Logic

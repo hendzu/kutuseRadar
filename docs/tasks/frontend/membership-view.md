@@ -4,7 +4,6 @@ Route: `/memberships`
 Requires login (redirect to `/login` if not authenticated)
 
 ## UI
-- [ ] Navbar: Kütusehinnad | Kaart | Lisa hind | Halda soodustusi | Logi välja
 - [ ] Table of existing memberships: columns Kett | Tase | Soodus s/l | (edit ✏ | delete ✕)
 - [ ] "Tankla kett" dropdown
 - [ ] "Soodustus tase" dropdown (populated after chain is selected)

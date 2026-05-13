@@ -4,7 +4,6 @@ Route: `/price`
 Requires login (redirect to `/login` if not authenticated)
 
 ## UI
-- [ ] Navbar: Kütusehinnad | Kaart | Lisa hind | Halda soodustusi | Logi välja
 - [ ] "Tankla nimi" dropdown populated from API
 - [ ] "Kütuse liik" dropdown populated from API
 - [ ] "Hind tanklas" number text input

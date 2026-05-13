@@ -3,7 +3,6 @@
 Route: `/login`
 
 ## UI
-- [ ] Navbar: Kütusehinnad | Kaart | Logi sisse | Registreeru
 - [ ] Kasutajanimi text input
 - [ ] Parool password input
 - [ ] "Logi sisse" submit button

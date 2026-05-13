@@ -3,12 +3,10 @@
 Route: `/`
 
 ## UI — logged out
-- [ ] Navbar: Kütusehinnad | Kaart | Logi sisse | Registreeru
 - [ ] "Vali tankla" dropdown listing all stations
 - [ ] Fuel price panel: shows 95, 98, D, LPG, CNG prices for selected station
 
 ## UI — logged in
-- [ ] Navbar: Kütusehinnad | Kaart | Lisa hind | Halda soodustusi | Logi välja
 - [ ] "Vali tankla" dropdown (same as above)
 - [ ] Fuel price panel with chain logo, chain name, membership discount
 - [ ] Star icon (☆/★) next to station panel to toggle favorite

@@ -3,7 +3,6 @@
 Route: `/register`
 
 ## UI
-- [ ] Navbar: Kütusehinnad | Kaart | Logi sisse | Registreeru
 - [ ] Kasutajanimi text input
 - [ ] Parool password input
 - [ ] Korda Parooli password input

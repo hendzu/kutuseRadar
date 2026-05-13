@@ -1,6 +1,9 @@
 <template>
   <div class="row justify-content-center mt-5">
     <h1 class="text-center">Logi sisse</h1>
+    <div class="row justify-content-center" v-if="errorMessage">
+      <div class="col col-3 text-danger">{{ errorMessage }}</div>
+    </div>
     <div class="col col-3 mb-4">
       <input
         v-model="username"
@@ -15,7 +18,7 @@
     <div class="col col-3">
       <input
         v-model="password"
-        type="text"
+        type="password"
         class="form-control"
         id="inputPassword"
         placeholder="Parool"
@@ -56,20 +59,21 @@ export default {
         LoginService.sendGetLoginRequest(this.username, this.password)
           .then((response) => this.handleLoginResponse(response))
           .catch((error) => this.handleLoginError(error))
-          .finally(()=>{
-            localStorage.setItem('userId','2')
-            localStorage.setItem('roleName','adminim')
+          .finally(() => {
+            localStorage.setItem('userId', '2')
+            localStorage.setItem('roleName', 'adminim')
+            this.$router.push('/')
+            this.$emit('event-user-logged-in')
           })
       } else {
         this.errorMessage = 'Täida kõik väljad'
       }
     },
-    handleLoginResponse: (response) => {
-      this.loginResponse = response.data()
+    handleLoginResponse(response) {
+      this.loginResponse = response.data
       localStorage.setItem('userId', this.loginResponse.userId)
       localStorage.setItem('roleName', this.loginResponse.roleName)
       this.$emit('event-user-logged-in')
-      return undefined
     },
   },
 }

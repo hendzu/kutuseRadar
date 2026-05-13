@@ -17,6 +17,7 @@ export default {
       localStorage.removeItem('userId')
       localStorage.removeItem('roleName')
       this.updateLoggedInStatus()
+      this.$router.push('/')
     },
   },
   beforeMount() {
@@ -47,18 +48,25 @@ export default {
           <li class="nav-item">
             <RouterLink class="nav-link" to="/map">Kaart</RouterLink>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="isLoggedIn">
             <RouterLink class="nav-link" to="/addprice">Lisa Hind</RouterLink>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="!isLoggedIn">
             <RouterLink class="nav-link" to="/login">Logi sisse</RouterLink>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="isLoggedIn">
+            <a class="nav-link" href="#" @click.prevent="executeLogOut">Logi välja</a>
+          </li>
+          <li class="nav-item" v-if="!isLoggedIn">
             <RouterLink class="nav-link" to="/register">Registreeru</RouterLink>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="!isLoggedIn">
             <RouterLink class="nav-link disabled" aria-disabled="true">Minu soodustused</RouterLink>
           </li>
+          <li class="nav-item" v-if="isLoggedIn">
+            <RouterLink class="nav-link" to="/memberships">Minu soodustused</RouterLink>
+          </li>
+
         </ul>
       </div>
     </div>

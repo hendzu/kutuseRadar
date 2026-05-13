@@ -14,10 +14,10 @@ INSERT INTO fuel (id, name) VALUES (5, 'CNG');
 
 
 -- users (username column is int)
-INSERT INTO "user" (id, username, password, role, status) VALUES (1, 1001, 'admin123', 'ADMIN', 'A');
-INSERT INTO "user" (id, username, password, role, status) VALUES (2, 1002, 'pass123', 'USER', 'A');
-INSERT INTO "user" (id, username, password, role, status) VALUES (3, 1003, 'pass123', 'USER', 'A');
-INSERT INTO "user" (id, username, password, role, status) VALUES (4, 1004, 'pass123', 'USER', 'D');
+INSERT INTO "user" (id, username, password, role, status) VALUES (1, 'admin', 'admin123', 'ADMIN', 'A');
+INSERT INTO "user" (id, username, password, role, status) VALUES (2, 'jaan', 'pass123', 'USER', 'A');
+INSERT INTO "user" (id, username, password, role, status) VALUES (3, 'mari', 'pass123', 'USER', 'A');
+INSERT INTO "user" (id, username, password, role, status) VALUES (4, 'peeter', 'pass123', 'USER', 'D');
 
 
 -- stations

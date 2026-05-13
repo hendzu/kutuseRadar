@@ -29,7 +29,7 @@
             <RouterLink class="nav-link" to="/login">Logi sisse</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/test">Registreeru</RouterLink>
+            <RouterLink class="nav-link" to="/register">Registreeru</RouterLink>
           </li>
           <li class="nav-item">
             <RouterLink class="nav-link disabled" aria-disabled="true">Minu soodustused</RouterLink>

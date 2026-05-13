@@ -29,7 +29,7 @@ npm run format     # Prettier formatting on src/
 
 ## Database Setup
 
-The schema DDL is in `backend/database/KutuseRadar_create.sql` — run it manually against PostgreSQL before first boot. The backend does not use Flyway; it relies on `spring.sql.init.mode=always`.
+The schema DDL is in `backend/database/2_KutuseRadar_create.sql` — run it manually against PostgreSQL before first boot. The backend does not use Flyway; it relies on `spring.sql.init.mode=always`.
 
 Default credentials in `application.properties`: `postgres` / `student123`, DB: `postgres` (localhost). Override by creating `backend/src/main/resources/application-local.properties`:
 

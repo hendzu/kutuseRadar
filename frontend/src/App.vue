@@ -1,6 +1,6 @@
 <script setup></script>
 <template>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <nav class="navbar navbar-expand-lg bg-body-tertiar">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Kütuseradar</a>
       <button
@@ -20,13 +20,13 @@
             <RouterLink class="nav-link active" aria-current="page" to="/">Kütusehinnad</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/test">Kaart</RouterLink>
+            <RouterLink class="nav-link" to="/map">Kaart</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/test">Lisa Hind</RouterLink>
+            <RouterLink class="nav-link" to="/addprice">Lisa Hind</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/test">Logi sisse</RouterLink>
+            <RouterLink class="nav-link" to="/login">Logi sisse</RouterLink>
           </li>
           <li class="nav-item">
             <RouterLink class="nav-link" to="/test">Registreeru</RouterLink>

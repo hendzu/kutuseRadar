@@ -1,6 +1,6 @@
 package ee.bcs.backend.controller;
 
-import ee.bcs.backend.controller.dto.UserDto;
+import ee.bcs.backend.controller.dto.LoginResponseDto;
 import ee.bcs.backend.infrastructure.error.ApiError;
 import ee.bcs.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +32,7 @@ public class UserController {
             @ApiResponse(responseCode = "403",
                     description = "Vale kasutajanimi või parool",
                     content = @Content(schema = @Schema(implementation = ApiError.class)))})
-    public UserDto login(@RequestParam String username, @RequestParam String password){
+    public LoginResponseDto login(@RequestParam String username, @RequestParam String password){
         return userService.login(username, password);
     }
 }

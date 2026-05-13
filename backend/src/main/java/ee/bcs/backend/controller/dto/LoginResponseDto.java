@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto implements Serializable {
+public class LoginResponseDto implements Serializable {
     @NotNull
     private Integer userId;
     @NotNull

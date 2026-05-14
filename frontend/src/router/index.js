@@ -5,6 +5,7 @@ import AddPriceView from '@/views/AddPriceView.vue'
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import MembershipView from "@/views/MembershipView.vue";
+import StationView from "@/views/StationView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +38,11 @@ const router = createRouter({
       path: '/memberships',
       name: 'membershipRoute',
       component: MembershipView,
+    },
+    {
+      path: '/station',
+      name: 'stationRoute',
+      component: StationView,
     },
   ],
 })

@@ -1,8 +1,10 @@
 <template>
   <div class="row justify-content-center mt-5">
     <h1 class="text-center">Logi sisse</h1>
-    <div class="row justify-content-center" v-if="errorMessage">
-      <AlertError :error-message="errorMessage"/>
+    <div class="row justify-content-center" >
+      <div class="col col-6">
+        <AlertError :error-message="errorMessage"/></div>
+
     </div>
     <div class="col col-3 mb-4">
       <input

@@ -7,7 +7,6 @@ import org.mapstruct.*;
 public interface UserMapper {
 
 
-    @Mapping(source = "role", target = "roleName")
     @Mapping(source = "id", target = "userId")
     LoginResponseDto toDto(User user);
 

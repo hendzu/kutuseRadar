@@ -20,6 +20,8 @@ public class UserService {
 
     public LoginResponseDto login(String username, String password) {
         User user = userRepository.findUserBy(username, password,"A").orElseThrow(()-> new ForbiddenException(INCORRECT_CREDENTIALS.getMessage(),INCORRECT_CREDENTIALS.getErrorCode()));
-        return userMapper.toDto(user);
+        LoginResponseDto loginResponseDto = userMapper.toDto(user);
+        loginResponseDto.setRoleName(user.getRole().getName());
+        return loginResponseDto;
     }
 }

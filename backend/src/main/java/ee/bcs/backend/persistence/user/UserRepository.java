@@ -10,7 +10,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("""
             select u from User u
-            where upper(u.username) = upper(:username) and u.status = :status and u.password = :password
-            order by u.id, u.role""")
+            where upper(u.username) = upper(:username) and u.password = :password and u.status = :status
+            order by u.id, u.role.name""")
     Optional<User> findUserBy(String username, String password, String status);
 }

@@ -1,6 +1,6 @@
 # AddPriceView.vue
 
-Route: `/price`  
+Route: `/price` or `/price?stationId=n`  
 Requires login (redirect to `/login` if not authenticated)
 
 ## UI
@@ -12,16 +12,18 @@ Requires login (redirect to `/login` if not authenticated)
 ## Logic
 - [ ] On mount call `GET /api/stations?userId=y` to populate station dropdown
 - [ ] On mount call `GET /api/fuel` to populate fuel type dropdown
+- [ ] If `stationId` is present in the URL query params, auto-select that station in the dropdown
 - [ ] On submit call `POST /api/fuel?userId=y&stationId=x&fuelId=z&fuelPrice=p`
 - [ ] Show success/error message after submit
 
 ## API
 ```
 GET /api/stations?userId=y
-→ [{ "stationId": int, "stationName": String, "stationFavorite": Boolean }]
+→ StationOptionDtos [{ "stationId": int, "stationName": String,
+                       "stationFavorite": boolean }]
 
 GET /api/fuel
-→ [{ "fuelId": int, "fuelName": String }]
+→ FuelOptionDtos [{ "fuelId": int, "fuelName": String }]
 
 POST /api/fuel?userId=y&stationId=x&fuelId=z&fuelPrice=p
 → { "message": String }

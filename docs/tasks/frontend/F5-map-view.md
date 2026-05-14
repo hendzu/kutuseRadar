@@ -2,21 +2,32 @@
 
 Route: `/map`
 
-## UI — logged out
+## UI
 - [ ] Text: "Kaardilt leiad mugavalt lähima tankla"
-- [ ] Map component with station markers
-
-## UI — logged in
-- [ ] Same map with station markers, favorites visually distinguished
+- [ ] Map with a marker per station (station name shown as label)
+- [ ] Clicking a marker opens a popup card:
+  - Station name and chain logo image
+  - Star (☆/★) to toggle favorite
+  - "Lisa hetke hind" link → navigates to `/price?stationId=x`
+  - "Vaata tanklat" link → navigates to `/station?stationId=x`
+  - Soodustus (discount) info
 
 ## Logic
-- [ ] On mount call `GET /api/stations?userId=y` to get station coordinates
-- [ ] Render a map (e.g. Leaflet) with a marker per station using `stationLong` / `stationLat`
-- [ ] Clicking a station marker navigates to HomeView (`/`) with that station pre-selected
+- [ ] On mount call `GET /api/station/location?userId=y` to get all station coordinates
+  - Pass `userId` from localStorage (omit if not logged in)
+- [ ] Render a map (e.g. Leaflet) with one marker per station
+- [ ] On marker click: fetch station detail via `GET /api/station?stationId=x&userId=y` and show popup
 
 ## API
 ```
-GET /api/stations?userId=y
-→ [{ "stationId": int, "stationName": String, "stationLong": double,
-     "stationLat": double, "chainName": String, "stationFavorite": Boolean }]
+GET /api/station/location?userId=y
+→ StationLocationDtos [{ "stationId": int, "stationName": String,
+                          "stationLong": double, "stationLat": double,
+                          "chainName": String, "isInFavorites": boolean }]
+
+GET /api/station?stationId=x&userId=y
+→ StationDto { "stationId": int, "stationName": String,
+               "stationFavorite": boolean, "chainName": String,
+               "chainLogo": String, "discount": int,
+               "fuels": [{ "fuelName": String, "fuelPrice": double }] }
 ```

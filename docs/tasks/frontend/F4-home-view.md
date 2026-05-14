@@ -2,36 +2,29 @@
 
 Route: `/`
 
-## UI — logged out
-- [ ] "Vali tankla" dropdown listing all stations
-- [ ] Fuel price panel: shows 95, 98, D, LPG, CNG prices for selected station
+## UI — section 1: lowest prices
+- [ ] Heading: "Praegused odavamad kütuse hinnad"
+- [ ] One card per fuel type: 95 | 98 | D | CNG | LPG
+- [ ] Each card shows: price (€/l) and station name below
 
-## UI — logged in
-- [ ] "Vali tankla" dropdown (same as above)
-- [ ] Fuel price panel with chain logo, chain name, membership discount
-- [ ] Star icon (☆/★) next to station panel to toggle favorite
+## UI — section 2: station search
+- [ ] Heading: "Otsi tanklat"
+- [ ] Search input with search icon
+- [ ] Clicking a result navigates to StationView (`/station?stationId=x`)
 
 ## Logic
-- [ ] On mount call `GET /api/stations?userId=y` to populate dropdown
-  - Pass `userId` from localStorage (or omit if not logged in)
-- [ ] On station select call `GET /api/stations?stationId=x&userId=y` for full detail
-- [ ] Star click → if not favorite: `POST /api/stations/favorite?stationId=x&userId=y`
-- [ ] Star click → if already favorite: `DELETE /api/stations/favorite?stationId=x&userId=y`
-- [ ] "Logi välja" clears localStorage and redirects to `/`
+- [ ] On mount call `GET /api/station/lowest-prices` to populate the fuel price cards
+- [ ] On mount call `GET /api/station?userId=y` to load all stations for search
+  - Pass `userId` from localStorage (omit if not logged in)
+- [ ] Filter search results client-side as user types
 
 ## API
 ```
-GET /api/stations?userId=y
-→ [{ "stationId": int, "stationName": String, "stationFavorite": Boolean }]
+GET /api/station/lowest-prices
+→ BestPricesDtos [{ "stationId": int, "stationName": String,
+                    "fuelType": String, "price": double }]
 
-GET /api/stations?stationId=x&userId=y
-→ { "stationId": int, "stationName": String, "stationFavorite": Boolean,
-    "chainName": String, "chainLogo": String, "discount": int,
-    "fuels": [{ "fuelName": String, "fuelPrice": double }] }
-
-POST /api/stations/favorite?stationId=x&userId=y
-→ { "message": String }
-
-DELETE /api/stations/favorite?stationId=x&userId=y
-→ { "message": String }
+GET /api/station?userId=y
+→ SearchResponseDtos [{ "stationId": int, "stationName": String,
+                        "favorite": boolean }]
 ```

@@ -1,48 +1,62 @@
 -- Created by Redgate Data Modeler (https://datamodeler.redgate-platform.com)
--- Last modification date: 2026-05-13 06:34:14.015
+-- Last modification date: 2026-05-14 08:16:32.408
 
 -- tables
 -- Table: chain
 CREATE TABLE chain (
-    id int  NOT NULL,
+    id serial  NOT NULL,
     name varchar(225)  NOT NULL,
-    logo bytea,
     status varchar(1)  NOT NULL,
     CONSTRAINT chain_name UNIQUE (name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
     CONSTRAINT chain_pk PRIMARY KEY (id)
 );
 
--- Table: favorite_stations
-CREATE TABLE favorite_stations (
-    id int  NOT NULL,
+-- Table: chain_image
+CREATE TABLE chain_image (
+    id serial  NOT NULL,
+    chain_id int  NOT NULL,
+    logo bytea  NOT NULL,
+    CONSTRAINT chain_image_pk PRIMARY KEY (id)
+);
+
+-- Table: favorite_station
+CREATE TABLE favorite_station (
+    id serial  NOT NULL,
     user_id int  NOT NULL,
     station_id int  NOT NULL,
-    CONSTRAINT favorite_stations_pk PRIMARY KEY (id)
+    CONSTRAINT favorite_station_pk PRIMARY KEY (id)
 );
 
 -- Table: fuel
 CREATE TABLE fuel (
-    id int  NOT NULL,
+    id serial  NOT NULL,
     name varchar(255)  NOT NULL,
     CONSTRAINT fuel_name UNIQUE (name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
     CONSTRAINT fuel_pk PRIMARY KEY (id)
 );
 
--- Table: memberships
-CREATE TABLE memberships (
-    id int  NOT NULL,
+-- Table: membership
+CREATE TABLE membership (
+    id serial  NOT NULL,
     chain_id int  NOT NULL,
-    discount money  NOT NULL,
+    discount decimal(4,3)  NOT NULL,
     name varchar(225)  NOT NULL,
     CONSTRAINT id PRIMARY KEY (id)
 );
 
+-- Table: role
+CREATE TABLE role (
+    id serial  NOT NULL,
+    name varchar(20)  NOT NULL,
+    CONSTRAINT role_pk PRIMARY KEY (id)
+);
+
 -- Table: station
 CREATE TABLE station (
-    id int  NOT NULL,
+    id serial  NOT NULL,
     chain_id int  NOT NULL,
     name varchar(255)  NOT NULL,
-    lon decimal(9,6)  NOT NULL,
+    lng decimal(9,6)  NOT NULL,
     lat decimal(8,6)  NOT NULL,
     status varchar(1)  NOT NULL,
     CONSTRAINT station_name UNIQUE (name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
@@ -51,7 +65,7 @@ CREATE TABLE station (
 
 -- Table: station_fuel
 CREATE TABLE station_fuel (
-    id int  NOT NULL,
+    id serial  NOT NULL,
     station_id int  NOT NULL,
     fuel_id int  NOT NULL,
     status varchar(1)  NOT NULL,
@@ -64,28 +78,28 @@ CREATE INDEX station_fuel_idx_fuel on station_fuel (fuel_id ASC);
 
 -- Table: station_fuel_price
 CREATE TABLE station_fuel_price (
-    id int  NOT NULL,
-    price money  NOT NULL,
-    time timestamp  NOT NULL,
-    station_fuel_id int  NOT NULL,
+    id serial  NOT NULL,
     user_id int  NOT NULL,
+    station_fuel_id int  NOT NULL,
+    price decimal(4,3)  NOT NULL,
+    time timestamp  NOT NULL,
     CONSTRAINT station_fuel_price_pk PRIMARY KEY (id)
 );
 
 -- Table: station_picture
 CREATE TABLE station_picture (
-    id int  NOT NULL,
-    picture bytea  NOT NULL,
+    id serial  NOT NULL,
     station_id int  NOT NULL,
+    picture bytea  NOT NULL,
     CONSTRAINT station_picture_pk PRIMARY KEY (id)
 );
 
 -- Table: user
 CREATE TABLE "user" (
-    id int  NOT NULL,
+    id serial  NOT NULL,
+    role_id int  NOT NULL,
     username varchar(255)  NOT NULL,
     password varchar(255)  NOT NULL,
-    role varchar(255)  NOT NULL,
     status varchar(1)  NOT NULL,
     CONSTRAINT user_name UNIQUE (username) NOT DEFERRABLE  INITIALLY IMMEDIATE,
     CONSTRAINT user_pk PRIMARY KEY (id)
@@ -93,31 +107,39 @@ CREATE TABLE "user" (
 
 -- Table: user_membership
 CREATE TABLE user_membership (
-    id int  NOT NULL,
+    id serial  NOT NULL,
     user_id int  NOT NULL,
-    memberships_id int  NOT NULL,
+    membership_id int  NOT NULL,
     CONSTRAINT user_membership_pk PRIMARY KEY (id)
 );
 
 -- foreign keys
--- Reference: favorite_stations_station (table: favorite_stations)
-ALTER TABLE favorite_stations ADD CONSTRAINT favorite_stations_station
+-- Reference: chain_image_chain (table: chain_image)
+ALTER TABLE chain_image ADD CONSTRAINT chain_image_chain
+    FOREIGN KEY (chain_id)
+    REFERENCES chain (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: favorite_stations_station (table: favorite_station)
+ALTER TABLE favorite_station ADD CONSTRAINT favorite_stations_station
     FOREIGN KEY (station_id)
     REFERENCES station (id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
--- Reference: favorite_stations_user (table: favorite_stations)
-ALTER TABLE favorite_stations ADD CONSTRAINT favorite_stations_user
+-- Reference: favorite_stations_user (table: favorite_station)
+ALTER TABLE favorite_station ADD CONSTRAINT favorite_stations_user
     FOREIGN KEY (user_id)
     REFERENCES "user" (id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
--- Reference: memberships_chain (table: memberships)
-ALTER TABLE memberships ADD CONSTRAINT memberships_chain
+-- Reference: memberships_chain (table: membership)
+ALTER TABLE membership ADD CONSTRAINT memberships_chain
     FOREIGN KEY (chain_id)
     REFERENCES chain (id)  
     NOT DEFERRABLE 
@@ -172,10 +194,10 @@ ALTER TABLE station_picture ADD CONSTRAINT station_picture_station
     INITIALLY IMMEDIATE
 ;
 
--- Reference: user_membership_memberships (table: user_membership)
-ALTER TABLE user_membership ADD CONSTRAINT user_membership_memberships
-    FOREIGN KEY (memberships_id)
-    REFERENCES memberships (id)  
+-- Reference: user_membership_membership (table: user_membership)
+ALTER TABLE user_membership ADD CONSTRAINT user_membership_membership
+    FOREIGN KEY (membership_id)
+    REFERENCES membership (id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -184,6 +206,14 @@ ALTER TABLE user_membership ADD CONSTRAINT user_membership_memberships
 ALTER TABLE user_membership ADD CONSTRAINT user_membership_user
     FOREIGN KEY (user_id)
     REFERENCES "user" (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: user_role (table: user)
+ALTER TABLE "user" ADD CONSTRAINT user_role
+    FOREIGN KEY (role_id)
+    REFERENCES role (id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;

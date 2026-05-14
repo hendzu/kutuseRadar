@@ -2,7 +2,9 @@
   <div class="row justify-content-center mt-5">
     <h1 class="text-center">Logi sisse</h1>
     <div class="row justify-content-center" v-if="errorMessage">
-      <AlertError :error-message="errorMessage"/>
+      <div class="col col-6">
+        <AlertError :error-message="errorMessage" />
+      </div>
     </div>
     <div class="col col-3 mb-4">
       <input
@@ -48,6 +50,10 @@ export default {
         userId: 0,
         roleName: '',
       },
+      errorResponse: {
+        message: '',
+        errorCode: 0,
+      },
     }
   },
   methods: {
@@ -56,7 +62,7 @@ export default {
     },
     login() {
       //   this.startSpinner()
-      this.resetErrorMessage()
+      // this.resetErrorMessage()
       if (this.allFormFieldsAreCorrect()) {
         LoginService.sendGetLoginRequest(this.username, this.password)
           .then((response) => this.handleLoginResponse(response))
@@ -68,8 +74,16 @@ export default {
         this.errorMessage = 'Täida kõik väljad'
       }
     },
-    resetErrorMessage() {
-      this.errorMessage = ''
+    handleLoginError(error) {
+      this.errorMessage = 'kala'
+      const statusNumber = error.response.status
+      this.errorResponse = error.response.data
+
+      if (statusNumber === 403 && this.errorResponse.errorCode === 100) {
+        this.errorMessage = this.errorResponse.message
+      } else {
+        // NavigationService.navigateToErrorView()
+      }
     },
     handleLoginResponse(response) {
       this.loginResponse = response.data
@@ -77,6 +91,10 @@ export default {
       localStorage.setItem('roleName', this.loginResponse.roleName)
       this.$emit('event-user-logged-in')
       this.$router.push('/')
+    },
+
+    resetErrorMessage() {
+      this.errorMessage = ''
     },
   },
 }

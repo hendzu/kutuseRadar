@@ -114,3 +114,17 @@ INSERT INTO favorite_station (id, user_id, station_id) VALUES (1, 2, 1);
 INSERT INTO favorite_station (id, user_id, station_id) VALUES (2, 2, 3);
 INSERT INTO favorite_station (id, user_id, station_id) VALUES (3, 3, 5);
 INSERT INTO favorite_station (id, user_id, station_id) VALUES (4, 3, 6);
+
+
+-- reset sequences
+SELECT setval(pg_get_serial_sequence('kutus.role',               'id'), (SELECT MAX(id) FROM kutus.role));
+SELECT setval(pg_get_serial_sequence('kutus.chain',              'id'), (SELECT MAX(id) FROM kutus.chain));
+SELECT setval(pg_get_serial_sequence('kutus.chain_image',        'id'), (SELECT MAX(id) FROM kutus.chain_image));
+SELECT setval(pg_get_serial_sequence('kutus.fuel',               'id'), (SELECT MAX(id) FROM kutus.fuel));
+SELECT setval(pg_get_serial_sequence('kutus."user"',             'id'), (SELECT MAX(id) FROM kutus."user"));
+SELECT setval(pg_get_serial_sequence('kutus.station',            'id'), (SELECT MAX(id) FROM kutus.station));
+SELECT setval(pg_get_serial_sequence('kutus.station_fuel',       'id'), (SELECT MAX(id) FROM kutus.station_fuel));
+SELECT setval(pg_get_serial_sequence('kutus.station_fuel_price', 'id'), (SELECT MAX(id) FROM kutus.station_fuel_price));
+SELECT setval(pg_get_serial_sequence('kutus.membership',         'id'), (SELECT MAX(id) FROM kutus.membership));
+SELECT setval(pg_get_serial_sequence('kutus.user_membership',    'id'), (SELECT MAX(id) FROM kutus.user_membership));
+SELECT setval(pg_get_serial_sequence('kutus.favorite_station',   'id'), (SELECT MAX(id) FROM kutus.favorite_station));

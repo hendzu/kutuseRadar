@@ -33,6 +33,15 @@ public class UserController {
         return userService.login(username, password);
     }
     @PostMapping("/user")
+    @Operation(summary="Kasutaja registeerimine, sisestab username ja password",
+    description = """
+             Sisestab uued username, password user tabelisse, role ja status määratakse automaatselt.
+            Kui kasutajanimi on juba võetud viskab errorcode 102
+            
+
+            """
+    )
+
         public void register(@RequestParam String username, @RequestParam String password) {
             userService.register(username, password);
         }

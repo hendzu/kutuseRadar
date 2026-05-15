@@ -10,7 +10,7 @@ Requires login (redirect to `/login` if not authenticated)
 - [ ] "Lisa hind" submit button
 
 ## Logic
-- [ ] On mount call `GET /api/stations?userId=y` to populate station dropdown
+- [ ] On mount call `GET /api/station/option?userId=y` to populate station dropdown
 - [ ] On mount call `GET /api/fuel` to populate fuel type dropdown
 - [ ] If `stationId` is present in the URL query params, auto-select that station in the dropdown
 - [ ] On submit call `POST /api/fuel?userId=y&stationId=x&fuelId=z&fuelPrice=p`
@@ -24,7 +24,7 @@ Requires login (redirect to `/login` if not authenticated)
 
 ## API
 ```
-GET /api/stations?userId=y
+GET /api/station/option?userId=y
 → StationOptionDtos [{ "stationId": int, "stationName": String,
                       "favorite": boolean }]
 

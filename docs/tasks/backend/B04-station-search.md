@@ -7,7 +7,7 @@ Used by HomeView search bar and AddPriceView station dropdown.
 - [ ] If no `userId`: `favorite` is always false
 
 ```
-GET /api/station?userId=y
+GET /api/stations?userId=y
 → StationOptionDtos [{ "stationId": int, "stationName": String,
                          "favorite": boolean }]
 ```

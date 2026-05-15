@@ -7,7 +7,7 @@ Used by StationView nearby stations table.
 - [ ] Include latest fuel prices and membership discount per station
 
 ```
-GET /api/station/location?stationId=x&kaugus=z
+GET /api/station/nearby?stationId=x&kaugus=z
 → NearbyStationDtos [{ "stationId": int, "stationName": String,
                         "discount": double, "kaugus": double,
                         "fuels": [{ "fuelName": String, "fuelPrice": double }] }]

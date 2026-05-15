@@ -15,7 +15,7 @@ Route: `/`
 ## Logic
 - [ ] On mount call `GET /api/station/lowest-prices?userId=y` to populate the fuel price cards
   - Pass `userId` from localStorage (omit if not logged in)
-- [ ] On mount call `GET /api/station?userId=y` to load all stations for search
+- [ ] On mount call `GET /api/stations?userId=y` to load all stations for search
   - Pass `userId` from localStorage (omit if not logged in)
 - [ ] Filter search results client-side as user types
 
@@ -30,7 +30,7 @@ GET /api/station/lowest-prices?userId=y
 → BestPricesDtos [{ "stationId": int, "stationName": String,
                     "fuelType": String, "price": double }]
 
-GET /api/station?userId=y
+GET /api/stations?userId=y
 → SearchResponseDtos [{ "stationId": int, "stationName": String,
                         "favorite": boolean }]
 ```

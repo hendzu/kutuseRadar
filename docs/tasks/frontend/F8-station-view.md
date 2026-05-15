@@ -20,7 +20,7 @@ Route: `/station?stationId=n`
 
 ## Logic
 - [ ] On mount fetch station detail via `GET /api/station?stationId=x&userId=y`
-- [ ] On mount fetch nearby stations via `GET /api/station/location?stationId=x&kaugus=z`
+- [ ] On mount fetch nearby stations via `GET /api/station/nearby?stationId=x&kaugus=z`
 - [ ] On mount fetch price history via `GET /api/station/history?stationId=x`
 - [ ] On mount call `GET /api/fuel` for fuel filter dropdown options
 - [ ] Star click → if not favorite: `POST /api/stations/favorite?stationId=x&userId=y`
@@ -44,7 +44,7 @@ GET /api/station?stationId=x&userId=y
                "chainLogo": String, "discount": int,
                "fuels": [{ "fuelName": String, "fuelPrice": double }] }
 
-GET /api/station/location?stationId=x&kaugus=z
+GET /api/station/nearby?stationId=x&kaugus=z
 → NearbyStationDtos [{ "stationId": int, "stationName": String,
                         "discount": double, "kaugus": double,
                         "fuels": [{ "fuelName": String, "fuelPrice": double }] }]

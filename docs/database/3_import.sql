@@ -97,10 +97,10 @@ INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUE
 
 
 -- memberships
-INSERT INTO membership (id, chain_id, discount, name) VALUES (1, 1, 0.030, 'Olerex Kuldkaart');
-INSERT INTO membership (id, chain_id, discount, name) VALUES (2, 1, 0.050, 'Olerex Hõbekaart');
-INSERT INTO membership (id, chain_id, discount, name) VALUES (3, 2, 0.040, 'Circle K Extra');
-INSERT INTO membership (id, chain_id, discount, name) VALUES (4, 3, 0.030, 'Neste+ kaart');
+INSERT INTO membership (id, chain_id, discount, name, status) VALUES (1, 1, 0.030, 'Olerex Kuldkaart','A');
+INSERT INTO membership (id, chain_id, discount, name, status) VALUES (2, 1, 0.050, 'Olerex Hõbekaart','D');
+INSERT INTO membership (id, chain_id, discount, name, status) VALUES (3, 2, 0.040, 'Circle K Extra','A');
+INSERT INTO membership (id, chain_id, discount, name, status) VALUES (4, 3, 0.030, 'Neste+ kaart','A');
 
 
 -- user_membership

@@ -1,6 +1,6 @@
-package ee.bcs.backend.controller;
+package ee.bcs.backend.controller.user;
 
-import ee.bcs.backend.controller.dto.LoginResponseDto;
+import ee.bcs.backend.controller.user.dto.LoginResponseDto;
 import ee.bcs.backend.infrastructure.error.ApiError;
 import ee.bcs.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;

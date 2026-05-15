@@ -41,6 +41,7 @@ CREATE TABLE membership (
     chain_id int  NOT NULL,
     discount decimal(4,3)  NOT NULL,
     name varchar(225)  NOT NULL,
+    status varchar(1)  NOT NULL,
     CONSTRAINT id PRIMARY KEY (id)
 );
 

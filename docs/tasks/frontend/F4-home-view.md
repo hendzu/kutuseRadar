@@ -13,14 +13,15 @@ Route: `/`
 - [ ] Clicking a result navigates to StationView (`/station?stationId=x`)
 
 ## Logic
-- [ ] On mount call `GET /api/station/lowest-prices` to populate the fuel price cards
+- [ ] On mount call `GET /api/station/lowest-prices?userId=y` to populate the fuel price cards
+  - Pass `userId` from localStorage (omit if not logged in)
 - [ ] On mount call `GET /api/station?userId=y` to load all stations for search
   - Pass `userId` from localStorage (omit if not logged in)
 - [ ] Filter search results client-side as user types
 
 ## API
 ```
-GET /api/station/lowest-prices
+GET /api/station/lowest-prices?userId=y
 → BestPricesDtos [{ "stationId": int, "stationName": String,
                     "fuelType": String, "price": double }]
 

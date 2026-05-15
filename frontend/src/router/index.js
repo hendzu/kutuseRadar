@@ -5,6 +5,8 @@ import AddPriceView from '@/views/AddPriceView.vue'
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import MembershipView from "@/views/MembershipView.vue";
+import ErrorView from '@/views/ErrorView.vue'
+import NotAuthorizedView from '@/views/NotAuthorizedView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,9 +36,19 @@ const router = createRouter({
       component: RegisterView,
     },
     {
-      path: '/memberships',
+      path: '/membership',
       name: 'membershipRoute',
       component: MembershipView,
+    },
+    {
+      path: '/error',
+      name: 'errorRoute',
+      component: ErrorView,
+    },
+    {
+      path: '/forbiden',
+      name: 'notAuthorizedRoute',
+      component: NotAuthorizedView,
     },
   ],
 })

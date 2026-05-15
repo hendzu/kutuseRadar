@@ -1,5 +1,6 @@
 <script>
 import AuthService from '@/auth/AuthService.js'
+import NavigationService from "@/navigation/NavigationService.js";
 
 export default {
   name: 'App',
@@ -17,7 +18,7 @@ export default {
       localStorage.removeItem('userId')
       localStorage.removeItem('roleName')
       this.updateLoggedInStatus()
-      this.$router.push('/')
+      NavigationService.navigateToHomeView()
     },
   },
   beforeMount() {
@@ -60,11 +61,8 @@ export default {
           <li class="nav-item" v-if="!isLoggedIn">
             <RouterLink class="nav-link" to="/register">Registreeru</RouterLink>
           </li>
-          <li class="nav-item" v-if="!isLoggedIn">
-            <RouterLink class="nav-link disabled" aria-disabled="true">Minu soodustused</RouterLink>
-          </li>
           <li class="nav-item" v-if="isLoggedIn">
-            <RouterLink class="nav-link" to="/memberships">Minu soodustused</RouterLink>
+            <RouterLink class="nav-link" to="/membership">Minu soodustused</RouterLink>
           </li>
 
         </ul>

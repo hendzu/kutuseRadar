@@ -52,7 +52,7 @@ const router = createRouter({
       component: ErrorView,
     },
     {
-      path: '/forbiden',
+      path: '/forbidden',
       name: 'notAuthorizedRoute',
       component: NotAuthorizedView,
     },

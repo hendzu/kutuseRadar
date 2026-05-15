@@ -1,4 +1,8 @@
-<script setup></script>
+<script>
+export default {
+  name: 'MembershipView',
+}
+</script>
 
 <template>
   <div class="container text-center">

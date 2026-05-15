@@ -5,9 +5,15 @@
   </div>
 </template>
 
-<style scoped></style>
-<script setup>
+<script>
 import MapComponent from '@/components/MapComponent.vue'
+
+export default {
+  name: 'MapView',
+  components: { MapComponent },
+}
 </script>
+
+<style scoped></style>
 
 

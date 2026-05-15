@@ -52,5 +52,10 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'AddPriceView',
+}
+</script>
+
 <style scoped></style>
-<script setup></script>

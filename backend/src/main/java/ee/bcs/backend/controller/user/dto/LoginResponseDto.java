@@ -1,4 +1,4 @@
-package ee.bcs.backend.controller.dto;
+package ee.bcs.backend.controller.user.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

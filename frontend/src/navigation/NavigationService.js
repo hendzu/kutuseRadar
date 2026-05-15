@@ -12,4 +12,7 @@ export default {
   navigateToNotAuthorizedView() {
     router.push({ name: 'notAuthorizedRoute' })
   },
+  navigateToLoginView() {
+    router.push({ name: 'loginRoute' })
+  },
 }

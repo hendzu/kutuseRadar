@@ -14,6 +14,10 @@ Route: `/register`
 - [ ] On success redirect to LoginView (`/login`)
 - [ ] Show error message on failure (error code 102)
 
+## Required Backend Tasks
+
+- [x] [B02 — POST /api/user (register)](../backend/done/B02-register.md)
+
 ## API
 ```
 POST /api/user?username=x&password=p

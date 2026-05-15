@@ -18,6 +18,11 @@ Route: `/map`
 - [ ] Render a map (e.g. Leaflet) with one marker per station
 - [ ] On marker click: fetch station detail via `GET /api/station?stationId=x&userId=y` and show popup
 
+## Required Backend Tasks
+
+- [ ] [B06 — GET /api/station/location (map markers)](../backend/B06-station-location-map.md)
+- [ ] [B05 — GET /api/station (station detail)](../backend/B05-station-detail.md)
+
 ## API
 ```
 GET /api/station/location?userId=y

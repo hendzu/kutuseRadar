@@ -27,6 +27,15 @@ Route: `/station?stationId=n`
 - [ ] Star click → if already favorite: `DELETE /api/stations/favorite?stationId=x&userId=y`
 - [ ] Re-fetch nearby stations when fuel filter, sort, or max distance changes
 
+## Required Backend Tasks
+
+- [ ] [B05 — GET /api/station (station detail)](../backend/B05-station-detail.md)
+- [ ] [B07 — GET /api/station/location (nearby stations)](../backend/B07-station-location-nearby.md)
+- [ ] [B08 — GET /api/station/history (price history)](../backend/B08-station-history.md)
+- [ ] [B12 — GET /api/fuel (fuel list)](../backend/B12-fuel-list.md)
+- [ ] [B10 — POST /api/stations/favorite (add favorite)](../backend/B10-station-favorite-add.md)
+- [ ] [B11 — DELETE /api/stations/favorite (remove favorite)](../backend/B11-station-favorite-remove.md)
+
 ## API
 ```
 GET /api/station?stationId=x&userId=y

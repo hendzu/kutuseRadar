@@ -16,6 +16,12 @@ Requires login (redirect to `/login` if not authenticated)
 - [ ] On submit call `POST /api/fuel?userId=y&stationId=x&fuelId=z&fuelPrice=p`
 - [ ] Show success/error message after submit
 
+## Required Backend Tasks
+
+- [ ] [B09 — GET /api/stations (station list for dropdown)](../backend/B09-station-list-dropdown.md)
+- [ ] [B12 — GET /api/fuel (fuel list)](../backend/B12-fuel-list.md)
+- [ ] [B13 — POST /api/fuel (add price)](../backend/B13-fuel-add-price.md)
+
 ## API
 ```
 GET /api/stations?userId=y

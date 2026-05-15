@@ -18,6 +18,11 @@ Route: `/`
   - Pass `userId` from localStorage (omit if not logged in)
 - [ ] Filter search results client-side as user types
 
+## Required Backend Tasks
+
+- [ ] [B03 — GET /api/station/lowest-prices](../backend/B03-station-lowest-prices.md)
+- [ ] [B04 — GET /api/station (station search)](../backend/B04-station-search.md)
+
 ## API
 ```
 GET /api/station/lowest-prices

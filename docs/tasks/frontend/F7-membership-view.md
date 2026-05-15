@@ -19,6 +19,15 @@ Requires login (redirect to `/login` if not authenticated)
 - [ ] Edit ✏ icon → pre-fill dropdowns with that row's values
 - [ ] Delete ✕ icon → `DELETE /api/memberships/user?userMembershipId=x`, then refresh table
 
+## Required Backend Tasks
+
+- [ ] [B14 — GET /api/memberships/user (user membership list)](../backend/B14-membership-user-list.md)
+- [ ] [B15 — GET /api/chains (chain list for dropdown)](../backend/B15-chain-list.md)
+- [ ] [B16 — GET /api/memberships (membership options by chain)](../backend/B16-membership-options.md)
+- [ ] [B17 — POST /api/memberships/user (add membership)](../backend/B17-membership-add.md)
+- [ ] [B18 — PUT /api/memberships/user (update membership)](../backend/B18-membership-update.md)
+- [ ] [B19 — DELETE /api/memberships/user (delete membership)](../backend/B19-membership-delete.md)
+
 ## API
 ```
 GET /api/memberships/user?userId=y

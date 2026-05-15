@@ -6,6 +6,6 @@
 
 ```
 GET /api/station/lowest-prices?userId=y
-→ BestPricesDtos [{ "stationId": int, "stationName": String,
+→ BestPriceDtos [{ "stationId": int, "stationName": String,
                      "fuelType": String, "price": double }]
 ```

@@ -1,5 +1,6 @@
 package ee.bcs.backend.persistence.station;
 
+import ee.bcs.backend.persistence.chain.Chain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -35,6 +36,10 @@ public class Station {
     @NotNull
     @Column(name = "status", nullable = false, length = 1)
     private String status;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "chain_id", nullable = false)
+    private Chain chain;
 
 
 }

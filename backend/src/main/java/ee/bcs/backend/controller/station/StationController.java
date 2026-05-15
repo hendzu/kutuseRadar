@@ -1,6 +1,7 @@
 package ee.bcs.backend.controller.station;
 
 
+import ee.bcs.backend.controller.fuel.dto.BestPriceDto;
 import ee.bcs.backend.infrastructure.error.ApiError;
 import ee.bcs.backend.service.StationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +31,7 @@ public class StationController {
                 """)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),})
-    public List<BestPricesDto> getBestPrices(@RequestParam(required = false) int userId){
+    public List<BestPriceDto> getBestPrices(@RequestParam(required = false) int userId){
 
         return stationService.getBestPrices(userId);
     }

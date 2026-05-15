@@ -6,6 +6,8 @@ import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import MembershipView from "@/views/MembershipView.vue";
 import StationView from "@/views/StationView.vue";
+import ErrorView from '@/views/ErrorView.vue'
+import NotAuthorizedView from '@/views/NotAuthorizedView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,7 +37,7 @@ const router = createRouter({
       component: RegisterView,
     },
     {
-      path: '/memberships',
+      path: '/membership',
       name: 'membershipRoute',
       component: MembershipView,
     },
@@ -43,6 +45,16 @@ const router = createRouter({
       path: '/station',
       name: 'stationRoute',
       component: StationView,
+    },
+    {
+      path: '/error',
+      name: 'errorRoute',
+      component: ErrorView,
+    },
+    {
+      path: '/forbiden',
+      name: 'notAuthorizedRoute',
+      component: NotAuthorizedView,
     },
   ],
 })

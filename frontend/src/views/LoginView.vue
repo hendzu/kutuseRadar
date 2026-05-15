@@ -37,6 +37,7 @@
 <script>
 import LoginService from '@/api-services/LoginService.js'
 import AlertError from '@/components/alerts/AlertError.vue'
+import NavigationService from '@/navigation/NavigationService.js'
 
 export default {
   name: 'LoginView',
@@ -49,6 +50,10 @@ export default {
       loginResponse: {
         userId: 0,
         roleName: '',
+      },
+      errorResponse: {
+        message: '',
+        errorCode: 0,
       },
     }
   },
@@ -70,15 +75,26 @@ export default {
         this.errorMessage = 'Täida kõik väljad'
       }
     },
-    resetErrorMessage() {
-      this.errorMessage = ''
+    handleLoginError(error) {
+      const statusNumber = error.response.status
+      this.errorResponse = error.response.data
+
+      if (statusNumber === 403 && this.errorResponse.errorCode === 100) {
+        this.errorMessage = this.errorResponse.message
+      } else {
+        // NavigationService.navigateToErrorView()
+      }
     },
     handleLoginResponse(response) {
       this.loginResponse = response.data
       localStorage.setItem('userId', this.loginResponse.userId)
       localStorage.setItem('roleName', this.loginResponse.roleName)
       this.$emit('event-user-logged-in')
-      this.$router.push('/')
+      NavigationService.navigateToHomeView()
+    },
+
+    resetErrorMessage() {
+      this.errorMessage = ''
     },
   },
 }

@@ -28,6 +28,13 @@ public class StationService {
             if (stationFuelPrice==null){
                 continue;
             }
+            Integer fuelPriceChainId = stationFuelPrice.getStationFuel().getStation().getChain().getId();
+            for (UserMembership userMembership:userMemberships){
+                Integer membershipChainId = userMembership.getMembership().getChain().getId();
+                if (membershipChainId.equals(fuelPriceChainId)){
+                    stationFuelPrice.setPrice(stationFuelPrice.getPrice().subtract(userMembership.getMembership().getDiscount()));
+                }
+            }
             bestPriceDtos.add(stationFuelBestPriceMapper.toDto(stationFuelPrice));
         }
         return bestPriceDtos;

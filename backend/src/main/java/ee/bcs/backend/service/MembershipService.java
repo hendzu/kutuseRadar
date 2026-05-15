@@ -1,5 +1,6 @@
 package ee.bcs.backend.service;
 
+import ee.bcs.backend.Status;
 import ee.bcs.backend.persistence.usermembership.UserMembership;
 import ee.bcs.backend.persistence.usermembership.UserMembershipRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,6 @@ public class MembershipService {
 
 
     public List<UserMembership> getUserMemberships(int userId) {
-        return userMembershipRepository.findValidMembershipChainDiscountBy(userId, "A");
+        return userMembershipRepository.findValidMembershipChainDiscountBy(userId, Status.ACTIVE.getCode());
     }
 }

@@ -1,5 +1,6 @@
 package ee.bcs.backend.service;
 
+import ee.bcs.backend.Status;
 import ee.bcs.backend.controller.fuel.dto.BestPriceDto;
 import ee.bcs.backend.controller.fuel.dto.StationFuelBestPriceMapper;
 import ee.bcs.backend.persistence.fuel.Fuel;
@@ -42,7 +43,7 @@ public class StationService {
     }
 
     private StationFuelPrice cheepestFuel(Fuel fuelType) {
-        Optional<StationFuelPrice> optionalStationFuelPrice = stationFuelPriceRepository.findLowestLatestPriceByFuelId(fuelType.getId(), "A");
+        Optional<StationFuelPrice> optionalStationFuelPrice = stationFuelPriceRepository.findLowestLatestPriceByFuelId(fuelType.getId(), Status.ACTIVE.getCode());
         return optionalStationFuelPrice.orElse(null);
     }
 }

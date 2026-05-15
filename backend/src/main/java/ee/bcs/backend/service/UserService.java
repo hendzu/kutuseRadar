@@ -1,5 +1,6 @@
 package ee.bcs.backend.service;
 
+import ee.bcs.backend.Status;
 import ee.bcs.backend.controller.user.dto.LoginResponseDto;
 import ee.bcs.backend.infrastructure.exception.DataNotFoundException;
 import ee.bcs.backend.infrastructure.exception.ForbiddenException;
@@ -38,7 +39,7 @@ public class UserService {
         user.setUsername(username);
         user.setPassword(password);
         user.setRole(role);
-        user.setStatus("A");
+        user.setStatus(Status.ACTIVE.getCode());
         userRepository.save(user);
     }
 }

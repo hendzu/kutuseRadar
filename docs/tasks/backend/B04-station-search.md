@@ -1,6 +1,6 @@
 # GET /api/station — search / list stations
 
-Used by HomeView search bar.
+Used by HomeView search bar and AddPriceView station dropdown.
 
 - [ ] Accept optional query param `userId`
 - [ ] Return all active stations with name and favorite flag
@@ -8,6 +8,6 @@ Used by HomeView search bar.
 
 ```
 GET /api/station?userId=y
-→ SearchResponseDtos [{ "stationId": int, "stationName": String,
+→ StationOptionDtos [{ "stationId": int, "stationName": String,
                          "favorite": boolean }]
 ```

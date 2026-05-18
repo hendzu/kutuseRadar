@@ -48,6 +48,7 @@
 import registerService from '@/api-services/RegisterService.js'
 import AlertError from '@/components/alerts/AlertError.vue'
 import navigationService from '@/navigation/NavigationService.js'
+import NavigationService from '@/navigation/NavigationService.js'
 
 export default {
   name: 'RegisterView',
@@ -79,10 +80,18 @@ export default {
       registerService
         .sendPostRegisterRequest(this.username, this.password)
         .then(navigationService.navigateToLoginView)
-        .catch((error) => {
-          this.errorMessage = error.response.data.message
-        })
+        .catch((error) => this.handleLoginError(error))
         .finally()
+    },
+    handleLoginError(error) {
+      const statusNumber = error.response.status
+      this.errorResponse = error.response.data
+
+      if (statusNumber === 404 && this.errorResponse.errorCode === 102) {
+        this.errorMessage = this.errorResponse.message
+      } else {
+        NavigationService.navigateToErrorView()
+      }
     },
     allFieldsFilled() {
       return this.username && this.password && this.validatepassword
@@ -90,8 +99,6 @@ export default {
     passwordsMatch() {
       return this.password === this.validatepassword
     },
-
-
   },
 }
 </script>

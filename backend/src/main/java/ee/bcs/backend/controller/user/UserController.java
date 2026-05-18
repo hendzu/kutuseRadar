@@ -40,8 +40,12 @@ public class UserController {
             
 
             """)
-
-        public void register(@RequestParam String username, @RequestParam String password) {
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404",
+                    description = "See kasutajanimi on juba võetud",
+                    content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public void register(@RequestParam String username, @RequestParam String password) {
             userService.register(username, password);
         }
 

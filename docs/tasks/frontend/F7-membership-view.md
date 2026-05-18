@@ -18,11 +18,11 @@ Requires login (redirect to `/login` if not authenticated)
 - [ ] On mount call `GET /api/chains` to populate chain dropdown
 - [ ] On chain select call `GET /api/memberships?chainId=c` to populate membership dropdown
 - [ ] "Lisa/Muuda soodustus":
-  - If membership not yet in table: `POST /api/memberships/user?chainId=c&membershipId=m&userId=y`
+  - If membership not yet in table: `POST /api/memberships/user` with body `UserMembershipDto`
     - Success → show green banner with "Soodustus lisatud"
     - Error `MEMBERSHIP_EXISTS` (code 105) → show red banner with "Teil juba on selle ketti soodustus"
     - Unknown/unexpected error → `NavigationService.navigateToErrorView()`
-  - If already exists: `PUT /api/memberships/user?chainId=c&membershipId=m&userId=y`
+  - If already exists: `PUT /api/memberships/user` with body `UserMembershipDto`
     - Success → show green banner with "Soodustus muudetud"
     - Unknown/unexpected error → `NavigationService.navigateToErrorView()`
 - [ ] Edit ✏ icon → pre-fill dropdowns with that row's values
@@ -50,10 +50,12 @@ GET /api/chains
 GET /api/memberships?chainId=c
 → [{ "membershipId": int, "membershipName": String }]
 
-POST /api/memberships/user?chainId=c&membershipId=m&userId=y
+POST /api/memberships/user
+  body: UserMembershipDto { "chainId": int, "membershipId": int, "userId": int }
 → { "message": String }
 
-PUT /api/memberships/user?chainId=c&membershipId=m&userId=y
+PUT /api/memberships/user
+  body: UserMembershipDto { "chainId": int, "membershipId": int, "userId": int }
 → { "message": String }
 
 DELETE /api/memberships/user?userMembershipId=x

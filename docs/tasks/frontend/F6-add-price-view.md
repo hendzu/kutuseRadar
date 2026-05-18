@@ -17,7 +17,7 @@ Requires login (redirect to `/login` if not authenticated)
 - [ ] On mount call `GET /api/station/option?userId=y` to populate station dropdown
 - [ ] On mount call `GET /api/fuel` to populate fuel type dropdown
 - [ ] If `stationId` is present in the URL query params, auto-select that station in the dropdown
-- [ ] On submit call `POST /api/fuel?userId=y&stationId=x&fuelId=z&fuelPrice=p`
+- [ ] On submit call `POST /api/fuel` with body `FuelStationPriceDto`
   - Success → show green banner with "Hind lisatud"
   - Error `INCORRECT_FUEL_TYPE` (code 103) → show red banner with "Valitud tanklas ei müüda seda küttust"
   - Unknown/unexpected error → `NavigationService.navigateToErrorView()`
@@ -37,6 +37,7 @@ GET /api/station/option?userId=y
 GET /api/fuel
 → FuelOptionDtos [{ "fuelId": int, "fuelName": String }]
 
-POST /api/fuel?userId=y&stationId=x&fuelId=z&fuelPrice=p
+POST /api/fuel
+  body: FuelStationPriceDto { "userId": int, "stationId": int, "fuelId": int, "fuelPrice": int }
 → { "message": String }
 ```

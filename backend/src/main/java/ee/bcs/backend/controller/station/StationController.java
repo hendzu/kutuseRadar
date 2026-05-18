@@ -31,5 +31,9 @@ public class StationController {
 
         return stationService.getBestPrices(userId);
     }
+    @GetMapping
+    public List<SearchResponseDto> getStations(@RequestParam(required = false) Integer userId){
+        return stationService.getStations(userId);
+    }
 
 }

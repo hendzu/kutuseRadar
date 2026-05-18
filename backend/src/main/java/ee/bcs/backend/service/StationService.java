@@ -2,7 +2,7 @@ package ee.bcs.backend.service;
 
 import ee.bcs.backend.Status;
 import ee.bcs.backend.controller.fuel.dto.BestPriceDto;
-import ee.bcs.backend.controller.fuel.dto.StationFuelBestPriceMapper;
+import ee.bcs.backend.persistence.stationfuelprice.StationFuelPriceMapper;
 import ee.bcs.backend.persistence.fuel.Fuel;
 import ee.bcs.backend.persistence.stationfuelprice.StationFuelPrice;
 import ee.bcs.backend.persistence.stationfuelprice.StationFuelPriceRepository;
@@ -19,7 +19,7 @@ public class StationService {
     private final StationFuelPriceRepository stationFuelPriceRepository;
     private final FuelService fuelService;
     private final MembershipService membershipService;
-    private final StationFuelBestPriceMapper stationFuelBestPriceMapper;
+    private final StationFuelPriceMapper stationFuelPriceMapper;
 
     public List<BestPriceDto> getBestPrices(int userId) {
         List<UserMembership> userMemberships = membershipService.getUserMemberships(userId);
@@ -36,7 +36,7 @@ public class StationService {
                     stationFuelPrice.setPrice(stationFuelPrice.getPrice().subtract(userMembership.getMembership().getDiscount()));
                 }
             }
-            bestPriceDtos.add(stationFuelBestPriceMapper.toDto(stationFuelPrice));
+            bestPriceDtos.add(stationFuelPriceMapper.toDto(stationFuelPrice));
         }
         return bestPriceDtos;
 

@@ -2,7 +2,7 @@
 
 Used by AddPriceView and StationView fuel filter dropdown.
 
-- [ ] Return all fuel types from the `fuel` table
+- [x] Return all fuel types from the `fuel` table
 
 ```
 GET /api/fuel

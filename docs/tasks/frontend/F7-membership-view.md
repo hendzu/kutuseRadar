@@ -13,6 +13,7 @@ Requires login (redirect to `/login` if not authenticated)
 - [ ] "Lisa/Muuda soodustus" submit button
 
 ## Logic
+- [ ] On mount: `AuthService.isLoggedIn()` → if false, `NavigationService.navigateToNotAuthorizedView()`
 - [ ] On mount call `GET /api/memberships/user?userId=y` to populate table
 - [ ] On mount call `GET /api/chains` to populate chain dropdown
 - [ ] On chain select call `GET /api/memberships?chainId=c` to populate membership dropdown
@@ -20,10 +21,13 @@ Requires login (redirect to `/login` if not authenticated)
   - If membership not yet in table: `POST /api/memberships/user?chainId=c&membershipId=m&userId=y`
     - Success → show green banner with "Soodustus lisatud"
     - Error `MEMBERSHIP_EXISTS` (code 105) → show red banner with "Teil juba on selle ketti soodustus"
+    - Unknown/unexpected error → `NavigationService.navigateToErrorView()`
   - If already exists: `PUT /api/memberships/user?chainId=c&membershipId=m&userId=y`
     - Success → show green banner with "Soodustus muudetud"
+    - Unknown/unexpected error → `NavigationService.navigateToErrorView()`
 - [ ] Edit ✏ icon → pre-fill dropdowns with that row's values
 - [ ] Delete ✕ icon → `DELETE /api/memberships/user?userMembershipId=x`, then refresh table; show banner with API message
+  - Unknown/unexpected error → `NavigationService.navigateToErrorView()`
 
 ## Required Backend Tasks
 

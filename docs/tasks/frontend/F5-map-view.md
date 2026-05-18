@@ -17,6 +17,7 @@ Route: `/map`
   - Pass `userId` from localStorage (omit if not logged in)
 - [ ] Render a map (e.g. Leaflet) with one marker per station
 - [ ] On marker click: fetch station detail via `GET /api/station?stationId=x&userId=y` and show popup
+- [ ] Unknown/unexpected API errors → `NavigationService.navigateToErrorView()`
 
 ## Required Backend Tasks
 

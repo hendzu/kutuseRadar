@@ -18,6 +18,7 @@ Route: `/`
 - [ ] On mount call `GET /api/station/option?userId=y` to load all stations for search
   - Pass `userId` from localStorage (omit if not logged in)
 - [ ] Filter search results client-side as user types
+- [ ] Unknown/unexpected API errors (any error not explicitly handled) → `NavigationService.navigateToErrorView()`
 
 ## Required Backend Tasks
 

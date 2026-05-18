@@ -23,9 +23,11 @@ Route: `/station?stationId=n`
 - [ ] On mount fetch nearby stations via `GET /api/station/nearby?stationId=x&kaugus=z`
 - [ ] On mount fetch price history via `GET /api/station/history?stationId=x`
 - [ ] On mount call `GET /api/fuel` for fuel filter dropdown options
+- [ ] Star click → if not logged in: `NavigationService.navigateToNotAuthorizedView()`
 - [ ] Star click → if not favorite: `POST /api/stations/favorite?stationId=x&userId=y`
 - [ ] Star click → if already favorite: `DELETE /api/stations/favorite?stationId=x&userId=y`
 - [ ] Re-fetch nearby stations when fuel filter, sort, or max distance changes
+- [ ] Unknown/unexpected API errors → `NavigationService.navigateToErrorView()`
 
 ## Required Backend Tasks
 

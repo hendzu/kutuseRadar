@@ -13,12 +13,14 @@ Requires login (redirect to `/login` if not authenticated)
 - [ ] "Lisa hind" submit button
 
 ## Logic
+- [ ] On mount: `AuthService.isLoggedIn()` → if false, `NavigationService.navigateToNotAuthorizedView()`
 - [ ] On mount call `GET /api/station/option?userId=y` to populate station dropdown
 - [ ] On mount call `GET /api/fuel` to populate fuel type dropdown
 - [ ] If `stationId` is present in the URL query params, auto-select that station in the dropdown
 - [ ] On submit call `POST /api/fuel?userId=y&stationId=x&fuelId=z&fuelPrice=p`
   - Success → show green banner with "Hind lisatud"
   - Error `INCORRECT_FUEL_TYPE` (code 103) → show red banner with "Valitud tanklas ei müüda seda küttust"
+  - Unknown/unexpected error → `NavigationService.navigateToErrorView()`
 
 ## Required Backend Tasks
 

@@ -45,7 +45,7 @@ public class StationService {
                     stationFuelPrice.setPrice(stationFuelPrice.getPrice().subtract(userMembership.getMembership().getDiscount()));
                 }
             }
-            bestPriceDtos.add(stationFuelPriceMapper.toDto(stationFuelPrice));
+            bestPriceDtos.add(stationFuelPriceMapper.toBestPriceDto(stationFuelPrice));
         }
         return bestPriceDtos;
 

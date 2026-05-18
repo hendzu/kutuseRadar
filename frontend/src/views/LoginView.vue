@@ -82,7 +82,7 @@ export default {
       if (statusNumber === 403 && this.errorResponse.errorCode === 100) {
         this.errorMessage = this.errorResponse.message
       } else {
-        // NavigationService.navigateToErrorView()
+        NavigationService.navigateToErrorView()
       }
     },
     handleLoginResponse(response) {

@@ -15,4 +15,7 @@ export default {
   navigateToLoginView() {
     router.push({ name: 'loginRoute' })
   },
+  navigateToStationView(stationId) {
+    router.push({ name: 'stationRoute', query: {stationId: stationId}})
+  },
 }

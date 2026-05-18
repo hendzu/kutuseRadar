@@ -16,13 +16,20 @@
     <div class="row justify-content-center mt-3">
       <div class="col-6">
         <Multiselect
+          @select="goToSelect"
           v-model="selectedStation"
           :options="stations"
           label="stationName"
           value-prop="stationId"
           placeholder="Otsi tanklat..."
           :searchable="true"
-        />
+        >
+          <template #option="{ option }">
+            <span :class="{ 'text-warning fw-bold': option.favorite }">
+              {{ option.stationName }}
+            </span>
+          </template>
+        </Multiselect>
       </div>
     </div>
   </div>
@@ -32,6 +39,7 @@
 import stationService from '@/api-services/StationService.js'
 import Multiselect from '@vueform/multiselect'
 import '@vueform/multiselect/themes/default.css'
+import NavigationService from '@/navigation/NavigationService.js'
 
 export default {
   components: { Multiselect },
@@ -45,15 +53,23 @@ export default {
           price: 0,
         },
       ],
-      stations: [],
+      stations: [{ stationId: 0, stationName: '', favorite: false }],
       selectedStation: null,
       userId: localStorage.getItem('userId'),
     }
   },
+  methods: {
+    goToSelect(select) {
+      NavigationService.navigateToStationView(select)
+    },
+  },
   mounted() {
     stationService.getBestPrices(this.userId).then((response) => {
       this.bestPrices = response.data
-    })
+    }).catch(() => NavigationService.navigateToErrorView())
+    stationService.getStations(this.userId).then((response) => {
+      this.stations = response.data.sort((a, b) => b.favorite - a.favorite)
+    }).catch(() => NavigationService.navigateToErrorView())
   },
 }
 </script>

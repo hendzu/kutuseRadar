@@ -1,6 +1,7 @@
 package ee.bcs.backend.persistence.stationfuelprice;
 
 import ee.bcs.backend.controller.fuel.dto.BestPriceDto;
+import ee.bcs.backend.controller.fuelprice.dto.FuelStationPriceDto;
 import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
@@ -10,4 +11,11 @@ public interface StationFuelPriceMapper {
     @Mapping(source="stationFuel.station.id",target="stationId")
     @Mapping(source="price",target="price")
     @Mapping(source = "stationFuel.fuel.name",target = "fuelName")
-    BestPriceDto toDto(StationFuelPrice stationFuelPrice);}
+    BestPriceDto toBestPriceDto(StationFuelPrice stationFuelPrice);
+
+
+    @Mapping(source = "userId", target = "user.id")
+    @Mapping(source = "price", target = "price")
+    StationFuelPrice toStationFuelPrice(FuelStationPriceDto fuelStationPriceDto);
+
+}

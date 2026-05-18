@@ -20,7 +20,7 @@ public class FuelController {
     private final FuelService fuelService;
 
 
-    @GetMapping("")
+    @GetMapping("/")
     @Operation(summary = "Leiab küttuse liigid.",
             description = """
                     Leiab andmebaasist iga küttuse liigi id ja nime.

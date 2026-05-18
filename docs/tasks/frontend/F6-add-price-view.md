@@ -26,7 +26,7 @@ Requires login (redirect to `/login` if not authenticated)
 
 - [ ] [B04 — GET /api/station (station list)](../backend/B04-station-search.md)
 - [x] [B12 — GET /api/fuel (fuel list)](../backend/done/B12-fuel-list.md)
-- [ ] [B13 — POST /api/fuel (add price)](../backend/B13-fuel-add-price.md)
+- [ ] [B13 — POST /api/fuel (add price)](../backend/done/B13-fuel-add-price.md)
 
 ## API
 ```

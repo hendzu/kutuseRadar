@@ -1,6 +1,6 @@
 # POST /api/fuelPrice — add fuel price
 
-- [x] Requires [B09 — MessageResponseDto](done/B09-message-response-dto.md)
+- [x] Requires [B09 — MessageResponseDto](B09-message-response-dto.md)
 - [x] Accept `@RequestBody FuelStationPriceDto` (`userId`, `stationId`, `fuelId`, `fuelPrice`)
 - [x] Look up the `station_fuel` record for the given station + fuel combination
 - [x] Insert a new row into `station_fuel_price` with current timestamp

@@ -16,6 +16,7 @@ import ee.bcs.backend.persistence.usermembership.UserMembership;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +31,13 @@ public class StationService {
     private final FavoriteStationRepository favoriteStationRepository;
     private final StationMapper stationMapper;
 
-    public List<BestPriceDto> getBestPrices(int userId) {
-        List<UserMembership> userMemberships = membershipService.getUserMemberships(userId);
+    public List<BestPriceDto> getBestPrices(Integer userId) {
+        List<UserMembership> userMemberships = new ArrayList<>();
+
+        if (userId != null) {
+          userMemberships = membershipService.getUserMemberships(userId);
+
+        }
         List<BestPriceDto> bestPriceDtos = new java.util.ArrayList<>(List.of());
         for (Fuel fuelType : fuelService.getFuelTypes()) {
             StationFuelPrice stationFuelPrice = cheapestFuel(fuelType);

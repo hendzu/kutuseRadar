@@ -28,7 +28,7 @@ public class StationController {
                     """)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),})
-    public List<BestPriceDto> getBestPrices(@RequestParam(required = false) int userId) {
+    public List<BestPriceDto> getBestPrices(@RequestParam(required = false) Integer userId) {
 
         return stationService.getBestPrices(userId);
     }

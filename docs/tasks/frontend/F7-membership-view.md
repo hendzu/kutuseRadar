@@ -4,6 +4,9 @@ Route: `/memberships`
 Requires login (redirect to `/login` if not authenticated)
 
 ## UI
+- [ ] Alert banner at top of page (below navbar): hidden by default, shown after any mutating API call
+  - Success state (green): shows `message` from API response
+  - Error state (pink/red with `!` icon): shows `message` from error response
 - [ ] Table of existing memberships: columns Kett | Tase | Soodus s/l | (edit ✏ | delete ✕)
 - [ ] "Tankla kett" dropdown
 - [ ] "Soodustus tase" dropdown (populated after chain is selected)
@@ -15,9 +18,12 @@ Requires login (redirect to `/login` if not authenticated)
 - [ ] On chain select call `GET /api/memberships?chainId=c` to populate membership dropdown
 - [ ] "Lisa/Muuda soodustus":
   - If membership not yet in table: `POST /api/memberships/user?chainId=c&membershipId=m&userId=y`
+    - Success → show green banner with "Soodustus lisatud"
+    - Error `MEMBERSHIP_EXISTS` (code 105) → show red banner with "Teil juba on selle ketti soodustus"
   - If already exists: `PUT /api/memberships/user?chainId=c&membershipId=m&userId=y`
+    - Success → show green banner with "Soodustus muudetud"
 - [ ] Edit ✏ icon → pre-fill dropdowns with that row's values
-- [ ] Delete ✕ icon → `DELETE /api/memberships/user?userMembershipId=x`, then refresh table
+- [ ] Delete ✕ icon → `DELETE /api/memberships/user?userMembershipId=x`, then refresh table; show banner with API message
 
 ## Required Backend Tasks
 

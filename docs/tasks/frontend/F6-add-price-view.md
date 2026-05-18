@@ -4,6 +4,9 @@ Route: `/price` or `/price?stationId=n`
 Requires login (redirect to `/login` if not authenticated)
 
 ## UI
+- [ ] Alert banner at top of page (below navbar): hidden by default, shown after any API call
+  - Success state (green): shows `message` from API response
+  - Error state (pink/red with `!` icon): shows `message` from error response
 - [ ] "Tankla nimi" dropdown populated from API
 - [ ] "Kütuse liik" dropdown populated from API
 - [ ] "Hind tanklas" number text input
@@ -14,7 +17,8 @@ Requires login (redirect to `/login` if not authenticated)
 - [ ] On mount call `GET /api/fuel` to populate fuel type dropdown
 - [ ] If `stationId` is present in the URL query params, auto-select that station in the dropdown
 - [ ] On submit call `POST /api/fuel?userId=y&stationId=x&fuelId=z&fuelPrice=p`
-- [ ] Show success/error message after submit
+  - Success → show green banner with "Hind lisatud"
+  - Error `INCORRECT_FUEL_TYPE` (code 103) → show red banner with "Valitud tanklas ei müüda seda küttust"
 
 ## Required Backend Tasks
 

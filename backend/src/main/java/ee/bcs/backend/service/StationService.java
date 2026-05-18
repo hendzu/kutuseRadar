@@ -2,7 +2,6 @@ package ee.bcs.backend.service;
 
 import ee.bcs.backend.Status;
 import ee.bcs.backend.controller.fuel.dto.BestPriceDto;
-import ee.bcs.backend.controller.fuel.dto.StationFuelBestPriceMapper;
 import ee.bcs.backend.controller.station.dto.StationOptionDto;
 import ee.bcs.backend.persistence.favoritestation.FavoriteStation;
 import ee.bcs.backend.persistence.favoritestation.FavoriteStationRepository;
@@ -11,6 +10,7 @@ import ee.bcs.backend.persistence.station.Station;
 import ee.bcs.backend.persistence.station.StationMapper;
 import ee.bcs.backend.persistence.station.StationRepository;
 import ee.bcs.backend.persistence.stationfuelprice.StationFuelPrice;
+import ee.bcs.backend.persistence.stationfuelprice.StationFuelPriceMapper;
 import ee.bcs.backend.persistence.stationfuelprice.StationFuelPriceRepository;
 import ee.bcs.backend.persistence.usermembership.UserMembership;
 import lombok.RequiredArgsConstructor;

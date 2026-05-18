@@ -2,8 +2,14 @@ package ee.bcs.backend.service;
 
 import ee.bcs.backend.Status;
 import ee.bcs.backend.controller.fuel.dto.BestPriceDto;
-import ee.bcs.backend.persistence.stationfuelprice.StationFuelPriceMapper;
+import ee.bcs.backend.controller.fuel.dto.StationFuelBestPriceMapper;
+import ee.bcs.backend.controller.station.dto.StationOptionDto;
+import ee.bcs.backend.persistence.favoritestation.FavoriteStation;
+import ee.bcs.backend.persistence.favoritestation.FavoriteStationRepository;
 import ee.bcs.backend.persistence.fuel.Fuel;
+import ee.bcs.backend.persistence.station.Station;
+import ee.bcs.backend.persistence.station.StationMapper;
+import ee.bcs.backend.persistence.station.StationRepository;
 import ee.bcs.backend.persistence.stationfuelprice.StationFuelPrice;
 import ee.bcs.backend.persistence.stationfuelprice.StationFuelPriceRepository;
 import ee.bcs.backend.persistence.usermembership.UserMembership;
@@ -20,12 +26,15 @@ public class StationService {
     private final FuelService fuelService;
     private final MembershipService membershipService;
     private final StationFuelPriceMapper stationFuelPriceMapper;
+    private final StationRepository stationRepository;
+    private final FavoriteStationRepository favoriteStationRepository;
+    private final StationMapper stationMapper;
 
     public List<BestPriceDto> getBestPrices(int userId) {
         List<UserMembership> userMemberships = membershipService.getUserMemberships(userId);
         List<BestPriceDto> bestPriceDtos = new java.util.ArrayList<>(List.of());
         for (Fuel fuelType : fuelService.getFuelTypes()) {
-            StationFuelPrice stationFuelPrice = cheepestFuel(fuelType);
+            StationFuelPrice stationFuelPrice = cheapestFuel(fuelType);
             if (stationFuelPrice==null){
                 continue;
             }
@@ -41,8 +50,25 @@ public class StationService {
         return bestPriceDtos;
 
     }
+    public List<StationOptionDto> getStations(Integer userId) {
+        List<Station> stations = stationRepository.findByStatus(Status.ACTIVE.getCode());
+        List<StationOptionDto> result = stationMapper.toStationOptionDtos(stations);
+        if (userId != null) {
+            List<FavoriteStation> favorites = favoriteStationRepository.findFavoriteStationBy(userId);
+            for (StationOptionDto dto : result) {
+                for (FavoriteStation favorite : favorites) {
+                    if (favorite.getStation().getId().equals(dto.getStationId())) {
+                        dto.setFavorite(true);
+                    }
 
-    private StationFuelPrice cheepestFuel(Fuel fuelType) {
+
+                }
+            }
+        }
+        return result;
+    }
+
+    private StationFuelPrice cheapestFuel(Fuel fuelType) {
         Optional<StationFuelPrice> optionalStationFuelPrice = stationFuelPriceRepository.findLowestLatestPriceByFuelId(fuelType.getId(), Status.ACTIVE.getCode());
         return optionalStationFuelPrice.orElse(null);
     }

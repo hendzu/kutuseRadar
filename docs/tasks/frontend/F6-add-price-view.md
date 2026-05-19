@@ -13,7 +13,7 @@ Requires login (redirect to `/login` if not authenticated)
 - [ ] "Lisa hind" submit button
 
 ## Logic
-- [ ] On mount: `AuthService.isLoggedIn()` → if false, `NavigationService.navigateToNotAuthorizedView()`
+- [x] On mount: `AuthService.isLoggedIn()` → if false, `NavigationService.navigateToNotAuthorizedView()`
 - [ ] On mount call `GET /api/station/option?userId=y` to populate station dropdown
 - [ ] On mount call `GET /api/fuel` to populate fuel type dropdown
 - [ ] If `stationId` is present in the URL query params, auto-select that station in the dropdown
@@ -24,7 +24,7 @@ Requires login (redirect to `/login` if not authenticated)
 
 ## Required Backend Tasks
 
-- [ ] [B04 — GET /api/station (station list)](../backend/B04-station-search.md)
+- [x] [B04 — GET /api/station (station list)](../backend/B04-station-search.md)
 - [x] [B12 — GET /api/fuel (fuel list)](../backend/done/B12-fuel-list.md)
 - [x] [B13 — POST /api/fuel (add price)](../backend/done/B13-fuel-add-price.md)
 

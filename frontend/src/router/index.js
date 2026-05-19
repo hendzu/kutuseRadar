@@ -22,7 +22,7 @@ const router = createRouter({
       component: MapView,
     },
     {
-      path: '/addprice',
+      path: '/addprice/:stationId?',
       name: 'addPriceRoute',
       component: AddPriceView,
     },

@@ -27,7 +27,7 @@ public class FuelPriceController {
     @Operation(summary = "Lisab kütuse hinna asukohas andmebaasi.",
             description = """
                     Võtab kasutaja id, tankla id, küttuse id ja sisestatud hinna. Loob sissekande praeguse kella ajaga.
-                    """)
+                    NB!:Max hinna suurus on 1 koht enne ja 3 pärast koma""")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "404",

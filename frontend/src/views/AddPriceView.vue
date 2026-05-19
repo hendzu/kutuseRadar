@@ -18,9 +18,9 @@
       </div>
       <div class="col col-6">
         <StationSelect
-          :selected-station="newPrice.selectedStationId"
+          :selected-station="newPrice.stationId"
           :stations="stations"
-          @event-selected-station-changed="newPrice.selectedStationId = $event"
+          @event-selected-station-changed="newPrice.stationId = $event"
         />
       </div>
     </div>
@@ -31,9 +31,9 @@
 
       <div class="col col-6">
         <FuelSelect
-          :selected-fuel="newPrice.selectedFuelId"
+          :selected-fuel="newPrice.fuelId"
           :fuels="fuels"
-          @event-selected-fuel-changed="newPrice.selectedFuelId = $event"
+          @event-selected-fuel-changed="newPrice.fuelId = $event"
         />
       </div>
     </div>
@@ -55,7 +55,7 @@
     </div>
     <div class="row justify-content-center mt-3">
       <div class="col col-4">
-        <button class="btn btn-primary w-100">Lisa hind</button>
+        <button @click="addPrice" class="btn btn-primary w-100">Lisa hind</button>
       </div>
     </div>
   </div>
@@ -80,9 +80,10 @@ export default {
       errorMessage: '',
       successMessage: '',
       newPrice: {
-        selectedStationId: 0,
-        selectedFuelId: 0,
-        price: '',
+        userId: 0,
+        stationId: 0,
+        fuelId: 0,
+        price: 0,
       },
       stations: [
         {
@@ -114,7 +115,7 @@ export default {
     },
     checkPathForStation() {
       if (this.$route.params.stationId) {
-        this.newPrice.selectedStationId = this.$route.params.stationId
+        this.newPrice.stationId = this.$route.params.stationId
       }
     },
     handleGetStationsResponse(data) {
@@ -133,17 +134,20 @@ export default {
       this.successMessage = ''
       let errorMessages = this.validateFormCorrectInput()
       this.errorMessage = errorMessages.toString().replaceAll(',', '; \n')
-      FuelService.postNewFuelPrice(this.newPrice)
-        .then((response)=>this.successMessage=response.data.message)
-        .catch((error)=>this.handlePostNewPriceError(error))
-        .finally()
+      if (this.errorMessage === '') {
+        this.newPrice.userId = Number(localStorage.getItem('userId'))
+        FuelService.postNewFuelPrice(this.newPrice)
+          .then((response) => (this.successMessage = response.data.message))
+          .catch((error) => this.handlePostNewPriceError(error))
+          .finally()
+      }
     },
     validateFormCorrectInput() {
       let errorMessages = []
-      if (this.newPrice.selectedStationId === 0) {
+      if (this.newPrice.stationId === 0) {
         errorMessages.push('Vali tankla')
       }
-      if (this.newPrice.selectedFuelId === 0) {
+      if (this.newPrice.fuelId === 0) {
         errorMessages.push('Vali kütuse tüüp')
       }
       if (this.newPrice.price < 0 || this.newPrice.price >= 10) {
@@ -151,9 +155,16 @@ export default {
       }
       return errorMessages
     },
-    handlePostNewPriceError(){
-      return null
-    }
+    handlePostNewPriceError(error) {
+      this.errorResponse = error.response.data
+      const statusCode = error.response.status
+      if (statusCode === 404 && this.errorResponse.errorCode === 109) {
+        this.errorMessage = this.errorResponse.message
+      } else {
+        NavigationService.navigateToErrorView()
+      }
+      return undefined
+    },
   },
 
   beforeMount() {

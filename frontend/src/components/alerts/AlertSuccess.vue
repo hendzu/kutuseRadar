@@ -8,5 +8,5 @@ export default {
 </script>
 
 <template>
-  <div v-if="successMessage" class="alert alert-success" role="alert">{{ successMessage }}></div>
+  <div v-if="successMessage" class="alert alert-success" role="alert">{{ successMessage }}</div>
 </template>

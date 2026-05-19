@@ -1,33 +1,56 @@
 <template>
   <div class="container mt-5">
     <h1 class="text-center">Lisa hind</h1>
+
+    <div class="row justify-content-center mt-3">
+      <div class="col col-8">
+        <AlertError :error-message="errorMessage" />
+      </div>
+    </div>
+    <div class="row justify-content-center mt-3">
+      <div class="col col-8">
+        <AlertSuccess :success-message="successMessage" />
+      </div>
+    </div>
     <div class="row justify-content-center mt-3">
       <div class="col col-2">
         <span>Tankla nimi</span>
       </div>
       <div class="col col-6">
-        <StationDropdown :selected-station-id="selectedStationId" :stations="stations" />
+        <StationSelect
+          :selected-station="newPrice.selectedStationId"
+          :stations="stations"
+          @event-selected-station-changed="newPrice.selectedStationId = $event"
+        />
       </div>
     </div>
     <div class="row justify-content-center mt-2">
       <div class="col col-2">
         <span>Kütuse liik</span>
       </div>
-      <div class="col col-2">
-        <select class="form-select" aria-label="Default select example" aria-placeholder="Tankla">
-          <option selected>Vali tankla</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
+
+      <div class="col col-6">
+        <FuelSelect
+          :selected-fuel="newPrice.selectedFuelId"
+          :fuels="fuels"
+          @event-selected-fuel-changed="newPrice.selectedFuelId = $event"
+        />
       </div>
     </div>
     <div class="row justify-content-center mt-2">
       <div class="col col-2">
         <span>Hind tanklas</span>
       </div>
-      <div class="col col-2">
-        <input type="number" class="form-control" placeholder="0.00" />
+      <div class="col col-6">
+        <input
+          type="number"
+          class="form-control"
+          placeholder="0.000"
+          step="0.001"
+          v-model="newPrice.price"
+          @blur="formatPrice"
+          min="0"
+        />
       </div>
     </div>
     <div class="row justify-content-center mt-3">
@@ -42,30 +65,36 @@
 import AuthService from '@/auth/AuthService.js'
 import NavigationService from '@/navigation/NavigationService.js'
 import StationService from '@/api-services/StationService.js'
-import StationDropdown from '@/components/AddPrice/StationDropdown.vue'
+import StationSelect from '@/components/StationSelect.vue'
+import FuelSelect from '@/components/FuelSelect.vue'
+import FuelService from '@/api-services/FuelService.js'
+import AlertError from '@/components/alerts/AlertError.vue'
+import AlertSuccess from '@/components/alerts/AlertSuccess.vue'
 
 export default {
   name: 'AddPriceView',
-  components: { StationDropdown },
+  components: { AlertSuccess, AlertError, StationSelect, FuelSelect },
 
   data() {
     return {
       errorMessage: '',
       successMessage: '',
-      selectedStationId: 0,
-      firstOptionLabel: '-- Vali tankla --',
-      firstOptionIsDisabled: false,
+      newPrice: {
+        selectedStationId: 0,
+        selectedFuelId: 0,
+        price: '',
+      },
       stations: [
         {
-          stationId: 0,
-          stationName: 'string',
-          favorite: true,
+          stationId: null,
+          stationName: 'null',
+          favorite: false,
         },
       ],
       fuels: [
         {
-          fuelId: 0,
-          fuelName: 'string',
+          fuelId: null,
+          fuelName: null,
         },
       ],
     }
@@ -77,20 +106,62 @@ export default {
         .catch(() => NavigationService.navigateToErrorView())
         .finally(() => this.checkPathForStation())
     },
+    getFuelTypes() {
+      FuelService.getFuelTypes()
+        .then((response) => this.handleGetFuelTypesResponse(response.data))
+        .catch(() => NavigationService.navigateToErrorView())
+        .finally()
+    },
     checkPathForStation() {
       if (this.$route.params.stationId) {
-        this.selectedStationId = this.$route.params.stationId
+        this.newPrice.selectedStationId = this.$route.params.stationId
       }
     },
     handleGetStationsResponse(data) {
       this.stations = data.sort((a, b) => b.favorite - a.favorite)
     },
+    handleGetFuelTypesResponse(data) {
+      this.fuels = data
+    },
+    formatPrice() {
+      if (this.price !== '') {
+        this.price = parseFloat(this.price).toFixed(3)
+      }
+    },
+    addPrice() {
+      this.errorMessage = ''
+      this.successMessage = ''
+      let errorMessages = this.validateFormCorrectInput()
+      this.errorMessage = errorMessages.toString().replaceAll(',', '; \n')
+      FuelService.postNewFuelPrice(this.newPrice)
+        .then((response)=>this.successMessage=response.data.message)
+        .catch((error)=>this.handlePostNewPriceError(error))
+        .finally()
+    },
+    validateFormCorrectInput() {
+      let errorMessages = []
+      if (this.newPrice.selectedStationId === 0) {
+        errorMessages.push('Vali tankla')
+      }
+      if (this.newPrice.selectedFuelId === 0) {
+        errorMessages.push('Vali kütuse tüüp')
+      }
+      if (this.newPrice.price < 0 || this.newPrice.price >= 10) {
+        errorMessages.push('Hinna sisend ebasobilik')
+      }
+      return errorMessages
+    },
+    handlePostNewPriceError(){
+      return null
+    }
   },
+
   beforeMount() {
     if (!AuthService.isLoggedIn()) {
       NavigationService.navigateToNotAuthorizedView()
     }
     this.getStations()
+    this.getFuelTypes()
   },
 }
 </script>

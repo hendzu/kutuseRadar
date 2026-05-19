@@ -29,7 +29,7 @@
 import stationService from '@/api-services/StationService.js'
 import '@vueform/multiselect/themes/default.css'
 import NavigationService from '@/navigation/NavigationService.js'
-import StationSelect from '@/views/StationSelect.vue'
+import StationSelect from '@/components/StationSelect.vue'
 
 export default {
   components: { StationSelect },

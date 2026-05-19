@@ -3,6 +3,7 @@ package ee.bcs.backend.controller.station;
 
 import ee.bcs.backend.controller.dto.MessageResponseDto;
 import ee.bcs.backend.controller.fuel.dto.BestPriceDto;
+import ee.bcs.backend.controller.station.dto.StationDto;
 import ee.bcs.backend.controller.station.dto.StationOptionDto;
 import ee.bcs.backend.service.StationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,7 +32,7 @@ public class StationController {
         return stationService.getBestPrices(userId);
     }
     @GetMapping("/option")
-    @Operation(summary = "Kuvab kõik jaamad",
+    @Operation(summary = "Kuvab kõik jaamad otsinguks",
             description = """
                     Tagastab kõik aktiivsed jaamad koos nime ja lemmiku lipuga.
                               Kui userId on antud, märgitakse kasutaja lemmikjaamad favorite=true.
@@ -61,5 +62,15 @@ public class StationController {
             @ApiResponse(responseCode = "200", description = "OK"),})
     public MessageResponseDto deleteFavorite(@RequestParam Integer stationId, @RequestParam Integer userId) {
         return stationService.deleteFavorite(stationId, userId);
+    }
+    @GetMapping
+    @Operation(summary = "Kuvab valitud jaama",
+            description = """
+                    
+                    """)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),})
+    public StationDto getStationDetail(@RequestParam Integer stationId, @RequestParam(required = false) Integer userId) {
+        return stationService.getStationDetail(stationId, userId);
     }
 }

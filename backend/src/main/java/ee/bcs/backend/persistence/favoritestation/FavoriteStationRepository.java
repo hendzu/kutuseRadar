@@ -10,4 +10,6 @@ public interface FavoriteStationRepository extends JpaRepository<FavoriteStation
     List<FavoriteStation> findFavoriteStationBy(Integer userId);
 
     void deleteByUser_IdAndStation_Id(Integer userId, Integer stationId);
+
+    boolean existsByUser_IdAndStation_Id(Integer userId, Integer stationId);
 }

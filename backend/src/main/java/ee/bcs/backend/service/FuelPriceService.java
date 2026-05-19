@@ -41,5 +41,6 @@ public class FuelPriceService {
             throw new DataNotFoundException("See tankla ei paku seda küttust", 109);
         }
         return optionalStationFuel.get();
+
     }
 }

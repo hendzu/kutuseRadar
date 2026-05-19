@@ -2,10 +2,10 @@
 
 Used by StationView and MapView popup.
 
-- [ ] Accept query params `stationId` and `userId`
-- [ ] Return full station detail: chain info, membership discount, latest prices per fuel type
-- [ ] `discount` = user's membership discount for that chain (0 if none)
-- [ ] `fuels` lists only fuel types that have at least one price entry
+- [x] Accept query params `stationId` and `userId`
+- [x] Return full station detail: chain info, membership discount, latest prices per fuel type
+- [x] `discount` = user's membership discount for that chain (0 if none)
+- [x] `fuels` lists only fuel types that have at least one price entry
 
 ```
 GET /api/station?stationId=x&userId=y

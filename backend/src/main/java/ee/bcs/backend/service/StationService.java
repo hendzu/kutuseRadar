@@ -3,7 +3,12 @@ package ee.bcs.backend.service;
 import ee.bcs.backend.Status;
 import ee.bcs.backend.controller.dto.MessageResponseDto;
 import ee.bcs.backend.controller.fuel.dto.BestPriceDto;
+import ee.bcs.backend.controller.station.dto.StationDto;
+import ee.bcs.backend.controller.station.dto.StationFuelPriceDto;
 import ee.bcs.backend.controller.station.dto.StationOptionDto;
+import ee.bcs.backend.infrastructure.exception.DataNotFoundException;
+import ee.bcs.backend.persistence.chainimage.ChainImage;
+import ee.bcs.backend.persistence.chainimage.ChainImageRepository;
 import ee.bcs.backend.persistence.favoritestation.FavoriteStation;
 import ee.bcs.backend.persistence.favoritestation.FavoriteStationRepository;
 import ee.bcs.backend.persistence.fuel.Fuel;
@@ -19,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -32,6 +38,8 @@ public class StationService {
     private final FavoriteStationRepository favoriteStationRepository;
     private final StationMapper stationMapper;
     private final UserRepository userRepository;
+    private final ChainImageRepository chainImageRepository;
+
 
     public List<BestPriceDto> getBestPrices(Integer userId) {
         List<UserMembership> userMemberships = findUserMemberships(userId);
@@ -110,5 +118,41 @@ public class StationService {
         favoriteStationRepository.deleteByUser_IdAndStation_Id(userId,stationId);
         return new MessageResponseDto("Lemmikjaam kustutatud!");
 
+    }
+    public StationDto getStationDetail(Integer stationId, Integer userId) {
+        Station station = stationRepository.findById(stationId)
+                .orElseThrow(() -> new DataNotFoundException("Jaama ei leitud", 404));
+
+        boolean isFavorite = userId != null &&
+                favoriteStationRepository.existsByUser_IdAndStation_Id(userId, stationId);
+
+
+
+        String chainLogo = null;
+        ChainImage chainImage = chainImageRepository.findByChain_Id(station.getChain().getId()).orElse(null);
+        if (chainImage != null) {
+            chainLogo = Base64.getEncoder().encodeToString(chainImage.getLogo());
+        }
+
+        List<StationFuelPrice> prices = stationFuelPriceRepository
+                .findLatestPriceByStationId(stationId, Status.ACTIVE.getCode());
+        List<UserMembership> userMemberships = findUserMemberships(userId);
+        for (StationFuelPrice price : prices) {
+            applyMembershipDiscount(price, userMemberships);
+        }
+
+        List<StationFuelPriceDto> fuels = new ArrayList<>();
+        for (StationFuelPrice price : prices) {
+            fuels.add(stationFuelPriceMapper.toStationFuelPriceDto(price));
+        }
+
+        StationDto dto = new StationDto();
+        dto.setStationId(stationId);
+        dto.setStationName(station.getName());
+        dto.setStationFavorite(isFavorite);
+        dto.setChainName(station.getChain().getName());
+        dto.setChainLogo(chainLogo);
+        dto.setFuels(fuels);
+        return dto;
     }
 }

@@ -23,7 +23,7 @@ Route: `/`
 ## Required Backend Tasks
 
 - [ ] [B03 — GET /api/station/lowest-prices](../backend/B03-station-lowest-prices.md)
-- [ ] [B04 — GET /api/station (station search)](../../backend/B04-station-search.md)
+- [ ] [B04 — GET /api/station (station search)](../../backend/done/B04-station-search.md)
 
 ## API
 ```

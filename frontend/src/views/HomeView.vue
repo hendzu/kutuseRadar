@@ -15,21 +15,11 @@
     <h2 class="text-center mt-5">Otsi tanklat</h2>
     <div class="row justify-content-center mt-3">
       <div class="col-6">
-        <Multiselect
-          @select="goToSelect"
-          v-model="selectedStation"
-          :options="stations"
-          label="stationName"
-          value-prop="stationId"
-          placeholder="Otsi tanklat..."
-          :searchable="true"
-        >
-          <template #option="{ option }">
-            <span :class="{ 'text-warning fw-bold': option.favorite }">
-              {{ option.stationName }}
-            </span>
-          </template>
-        </Multiselect>
+        <StationSelect
+          :selected-station="selectedStation"
+          :stations="stations"
+          @event-selected-station-changed="goToSelect($event)"
+        />
       </div>
     </div>
   </div>
@@ -37,12 +27,12 @@
 
 <script>
 import stationService from '@/api-services/StationService.js'
-import Multiselect from '@vueform/multiselect'
 import '@vueform/multiselect/themes/default.css'
 import NavigationService from '@/navigation/NavigationService.js'
+import StationSelect from '@/views/StationSelect.vue'
 
 export default {
-  components: { Multiselect },
+  components: { StationSelect },
   data() {
     return {
       bestPrices: [
@@ -64,12 +54,18 @@ export default {
     },
   },
   mounted() {
-    stationService.getBestPrices(this.userId).then((response) => {
-      this.bestPrices = response.data
-    }).catch(() => NavigationService.navigateToErrorView())
-    stationService.getStations(this.userId).then((response) => {
-      this.stations = response.data.sort((a, b) => b.favorite - a.favorite)
-    }).catch(() => NavigationService.navigateToErrorView())
+    stationService
+      .getBestPrices(this.userId)
+      .then((response) => {
+        this.bestPrices = response.data
+      })
+      .catch(() => NavigationService.navigateToErrorView())
+    stationService
+      .getStations(this.userId)
+      .then((response) => {
+        this.stations = response.data.sort((a, b) => b.favorite - a.favorite)
+      })
+      .catch(() => NavigationService.navigateToErrorView())
   },
 }
 </script>

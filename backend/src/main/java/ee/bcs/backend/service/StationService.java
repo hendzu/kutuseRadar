@@ -1,6 +1,7 @@
 package ee.bcs.backend.service;
 
 import ee.bcs.backend.Status;
+import ee.bcs.backend.controller.dto.MessageResponseDto;
 import ee.bcs.backend.controller.fuel.dto.BestPriceDto;
 import ee.bcs.backend.controller.station.dto.StationOptionDto;
 import ee.bcs.backend.persistence.favoritestation.FavoriteStation;
@@ -12,6 +13,7 @@ import ee.bcs.backend.persistence.station.StationRepository;
 import ee.bcs.backend.persistence.stationfuelprice.StationFuelPrice;
 import ee.bcs.backend.persistence.stationfuelprice.StationFuelPriceMapper;
 import ee.bcs.backend.persistence.stationfuelprice.StationFuelPriceRepository;
+import ee.bcs.backend.persistence.user.UserRepository;
 import ee.bcs.backend.persistence.usermembership.UserMembership;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ public class StationService {
     private final StationRepository stationRepository;
     private final FavoriteStationRepository favoriteStationRepository;
     private final StationMapper stationMapper;
+    private final UserRepository userRepository;
 
     public List<BestPriceDto> getBestPrices(Integer userId) {
         List<UserMembership> userMemberships = findUserMemberships(userId);
@@ -94,5 +97,18 @@ public class StationService {
 
     private List<StationFuelPrice> cheapestFuel(Fuel fuelType) {
         return stationFuelPriceRepository.findLowestLatestPriceByFuelId(fuelType.getId(), Status.ACTIVE.getCode());
+    }
+
+    public MessageResponseDto addFavorite(Integer stationId, Integer userId) {
+        FavoriteStation favoriteStation = new FavoriteStation();
+        favoriteStation.setStation(stationRepository.getReferenceById(stationId));
+        favoriteStation.setUser(userRepository.getReferenceById(userId));
+        favoriteStationRepository.save(favoriteStation);
+                return new MessageResponseDto("Lemmikjaam lisatud!");
+    }
+    public MessageResponseDto deleteFavorite(Integer stationId, Integer userId) {
+        favoriteStationRepository.deleteByUser_IdAndStation_Id(userId,stationId);
+        return new MessageResponseDto("Lemmikjaam kustutatud!");
+
     }
 }

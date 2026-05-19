@@ -18,4 +18,7 @@ export default {
   navigateToStationView(stationId) {
     router.push({ name: 'stationRoute', query: {stationId: stationId}})
   },
+  navigateToAddPriceView(stationId) {
+    router.push({ name: 'addPriceRoute', params: {stationId: stationId}})
+  },
 }

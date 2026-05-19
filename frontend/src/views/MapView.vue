@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div class="text-center"><h1>Kaart</h1></div>
+    <div class="text-center"><h1>Kaardilt leiad mugavalt lähima tankla</h1></div>
     <MapComponent />
   </div>
 </template>
@@ -15,5 +15,3 @@ export default {
 </script>
 
 <style scoped></style>
-
-

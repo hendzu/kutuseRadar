@@ -158,7 +158,7 @@ export default {
     handlePostNewPriceError(error) {
       this.errorResponse = error.response.data
       const statusCode = error.response.status
-      if (statusCode === 404 && this.errorResponse.errorCode === 109) {
+      if (statusCode === 404 && this.errorResponse.errorCode === 103) {
         this.errorMessage = this.errorResponse.message
       } else {
         NavigationService.navigateToErrorView()

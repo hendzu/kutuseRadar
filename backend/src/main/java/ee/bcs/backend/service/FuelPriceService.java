@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import static ee.bcs.backend.infrastructure.error.ErrorResponse.INCORRECT_FUEL_TYPE;
+
 @Service
 @RequiredArgsConstructor
 public class FuelPriceService {
@@ -38,7 +40,7 @@ public class FuelPriceService {
     private StationFuel validateStationSellsFuel(FuelStationPriceDto fuelStationPriceDto) {
         Optional<StationFuel> optionalStationFuel = stationFuelRepository.findStationFuelExists(fuelStationPriceDto.getStationId(), fuelStationPriceDto.getFuelId());
         if (optionalStationFuel.isEmpty()) {
-            throw new DataNotFoundException("See tankla ei paku seda küttust", 109);
+            throw new DataNotFoundException(INCORRECT_FUEL_TYPE.getMessage(), INCORRECT_FUEL_TYPE.getErrorCode());
         }
         return optionalStationFuel.get();
 

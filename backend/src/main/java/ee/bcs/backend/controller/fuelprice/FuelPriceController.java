@@ -32,7 +32,7 @@ public class FuelPriceController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "404",
-            description = "See tankla ei paku seda küttust Error code: 109",
+            description = "Valitud tanklas ei müüda seda küttust Error code: 103",
             content = @Content(schema = @Schema(implementation = ApiError.class)))})
     public MessageResponseDto addFuelPrices(@RequestBody FuelStationPriceDto fuelStationPriceDto){
         return fuelPriceService.addFuelPrices(fuelStationPriceDto);

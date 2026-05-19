@@ -1,6 +1,7 @@
 package ee.bcs.backend.controller.station;
 
 
+import ee.bcs.backend.controller.dto.MessageResponseDto;
 import ee.bcs.backend.controller.fuel.dto.BestPriceDto;
 import ee.bcs.backend.controller.station.dto.StationOptionDto;
 import ee.bcs.backend.service.StationService;
@@ -8,10 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,4 +42,24 @@ public class StationController {
         return stationService.getStations(userId);
     }
 
+    @PostMapping("/favorite")
+    @Operation(summary = "Lisab uus lemmikjaama",
+            description = """
+                    Määrab userId ja stationId järgi kasutaja valitud jaama lemmikjaamaks favorite_station tabelis
+                    """)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),})
+    public MessageResponseDto addFavorite(@RequestParam Integer stationId, @RequestParam Integer userId) {
+        return stationService.addFavorite(stationId, userId);
+    }
+    @DeleteMapping("/favorite")
+    @Operation(summary = "Kustutab lemmikjaama",
+            description = """
+                    Kustutab userId ja stationId järgi kasutaja valitud jaama lemmikjaamaks favorite_station tabelist
+                    """)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),})
+    public MessageResponseDto deleteFavorite(@RequestParam Integer stationId, @RequestParam Integer userId) {
+        return stationService.deleteFavorite(stationId, userId);
+    }
 }

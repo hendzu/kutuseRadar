@@ -23,14 +23,23 @@ public class FuelPriceService {
 
 
     public MessageResponseDto addFuelPrices(FuelStationPriceDto fuelStationPriceDto) {
+        StationFuel stationFuel = validateStationSellsFuel(fuelStationPriceDto);
+        createAndSaveStationFuelPrice(fuelStationPriceDto, stationFuel);
+        return new MessageResponseDto("Hind lisatud");
+    }
+
+    private void createAndSaveStationFuelPrice(FuelStationPriceDto fuelStationPriceDto, StationFuel stationFuel) {
+        StationFuelPrice stationFuelPrice = stationFuelPriceMapper.toStationFuelPrice(fuelStationPriceDto);
+        stationFuelPrice.setTime(LocalDateTime.now());
+        stationFuelPrice.setStationFuel(stationFuel);
+        stationFuelPriceRepository.save(stationFuelPrice);
+    }
+
+    private StationFuel validateStationSellsFuel(FuelStationPriceDto fuelStationPriceDto) {
         Optional<StationFuel> optionalStationFuel = stationFuelRepository.findStationFuelExists(fuelStationPriceDto.getStationId(), fuelStationPriceDto.getFuelId());
         if (optionalStationFuel.isEmpty()) {
             throw new DataNotFoundException("See tankla ei paku seda küttust", 109);
         }
-        StationFuelPrice stationFuelPrice = stationFuelPriceMapper.toStationFuelPrice(fuelStationPriceDto);
-        stationFuelPrice.setTime(LocalDateTime.now());
-        stationFuelPrice.setStationFuel(optionalStationFuel.get());
-        stationFuelPriceRepository.save(stationFuelPrice);
-        return new MessageResponseDto("Hind lisatud");
+        return optionalStationFuel.get();
     }
 }

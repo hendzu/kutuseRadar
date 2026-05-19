@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,30 +31,20 @@ public class StationService {
     private final StationMapper stationMapper;
 
     public List<BestPriceDto> getBestPrices(Integer userId) {
-        List<UserMembership> userMemberships = new ArrayList<>();
-
-        if (userId != null) {
-          userMemberships = membershipService.getUserMemberships(userId);
-
-        }
-        List<BestPriceDto> bestPriceDtos = new java.util.ArrayList<>(List.of());
+        List<UserMembership> userMemberships = findUserMemberships(userId);
+        List<BestPriceDto> bestPriceDtos = new ArrayList<>();
         for (Fuel fuelType : fuelService.getFuelTypes()) {
-            StationFuelPrice stationFuelPrice = cheapestFuel(fuelType);
-            if (stationFuelPrice==null){
+            List<StationFuelPrice> stationFuelPrices = cheapestFuel(fuelType);
+            if (stationFuelPrices.isEmpty()) {
                 continue;
             }
-            Integer fuelPriceChainId = stationFuelPrice.getStationFuel().getStation().getChain().getId();
-            for (UserMembership userMembership:userMemberships){
-                Integer membershipChainId = userMembership.getMembership().getChain().getId();
-                if (membershipChainId.equals(fuelPriceChainId)){
-                    stationFuelPrice.setPrice(stationFuelPrice.getPrice().subtract(userMembership.getMembership().getDiscount()));
-                }
-            }
-            bestPriceDtos.add(stationFuelPriceMapper.toBestPriceDto(stationFuelPrice));
+            addBestPriceToList(stationFuelPrices, userMemberships, bestPriceDtos);
         }
         return bestPriceDtos;
 
     }
+
+
     public List<StationOptionDto> getStations(Integer userId) {
         List<Station> stations = stationRepository.findByStatus(Status.ACTIVE.getCode());
         List<StationOptionDto> result = stationMapper.toStationOptionDtos(stations);
@@ -66,16 +55,44 @@ public class StationService {
                     if (favorite.getStation().getId().equals(dto.getStationId())) {
                         dto.setFavorite(true);
                     }
-
-
                 }
             }
         }
         return result;
     }
 
-    private StationFuelPrice cheapestFuel(Fuel fuelType) {
-        Optional<StationFuelPrice> optionalStationFuelPrice = stationFuelPriceRepository.findLowestLatestPriceByFuelId(fuelType.getId(), Status.ACTIVE.getCode());
-        return optionalStationFuelPrice.orElse(null);
+    private void addBestPriceToList(List<StationFuelPrice> stationFuelPrices, List<UserMembership> userMemberships, List<BestPriceDto> bestPriceDtos) {
+        StationFuelPrice bestStationFuelPrice = stationFuelPrices.getFirst();
+        for (StationFuelPrice stationFuelPrice : stationFuelPrices) {
+            applyMembershipDiscount(stationFuelPrice, userMemberships);
+            if (bestStationFuelPrice.getPrice().compareTo(stationFuelPrice.getPrice()) > 0) {
+                bestStationFuelPrice = stationFuelPrice;
+            }
+
+        }
+        bestPriceDtos.add(stationFuelPriceMapper.toBestPriceDto(bestStationFuelPrice));
+    }
+
+    private static void applyMembershipDiscount(StationFuelPrice stationFuelPrice, List<UserMembership> userMemberships) {
+        Integer fuelPriceChainId = stationFuelPrice.getStationFuel().getStation().getChain().getId();
+        for (UserMembership userMembership : userMemberships) {
+            Integer membershipChainId = userMembership.getMembership().getChain().getId();
+            if (membershipChainId.equals(fuelPriceChainId)) {
+                stationFuelPrice.setPrice(stationFuelPrice.getPrice().subtract(userMembership.getMembership().getDiscount()));
+            }
+        }
+    }
+
+    private List<UserMembership> findUserMemberships(Integer userId) {
+        List<UserMembership> userMemberships = new ArrayList<>();
+        if (userId != null) {
+            userMemberships = membershipService.getUserMemberships(userId);
+        }
+        return userMemberships;
+    }
+
+
+    private List<StationFuelPrice> cheapestFuel(Fuel fuelType) {
+        return stationFuelPriceRepository.findLowestLatestPriceByFuelId(fuelType.getId(), Status.ACTIVE.getCode());
     }
 }

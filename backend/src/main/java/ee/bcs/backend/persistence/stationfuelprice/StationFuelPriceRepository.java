@@ -3,7 +3,7 @@ package ee.bcs.backend.persistence.stationfuelprice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface StationFuelPriceRepository extends JpaRepository<StationFuelPrice, Integer> {
     @Query("""
@@ -14,7 +14,6 @@ public interface StationFuelPriceRepository extends JpaRepository<StationFuelPri
                   SELECT MAX(s2.time) FROM StationFuelPrice s2
                   WHERE s2.stationFuel = s.stationFuel
               )
-            ORDER BY s.price ASC
-            LIMIT 1""")
-    Optional<StationFuelPrice> findLowestLatestPriceByFuelId(Integer fuelId, String stationFuelStatus);
+            ORDER BY s.price ASC""")
+    List<StationFuelPrice> findLowestLatestPriceByFuelId(Integer fuelId, String stationFuelStatus);
 }

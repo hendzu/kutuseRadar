@@ -10,7 +10,6 @@ Route: `/map`
   - Star (☆/★) to toggle favorite
   - "Lisa hetke hind" link → navigates to `/price?stationId=x`
   - "Vaata tanklat" link → navigates to `/station?stationId=x`
-  - Soodustus (discount) info
 
 ## Logic
 - [ ] On mount call `GET /api/station/location?userId=y` to get all station coordinates
@@ -29,11 +28,11 @@ Route: `/map`
 GET /api/station/location?userId=y
 → StationLocationDtos [{ "stationId": int, "stationName": String,
                           "stationLong": double, "stationLat": double,
-                          "chainName": String, "isInFavorites": boolean }]
+                          "isInFavorites": boolean }]
 
 GET /api/station?stationId=x&userId=y
 → StationDto { "stationId": int, "stationName": String,
                "stationFavorite": boolean, "chainName": String,
-               "chainLogo": String, "discount": int,
+               "chainLogo": String,
                "fuels": [{ "fuelName": String, "fuelPrice": double }] }
 ```

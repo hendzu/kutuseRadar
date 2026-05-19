@@ -9,5 +9,5 @@ Used by MapView to place markers.
 GET /api/station/location?userId=y
 → StationLocationDtos [{ "stationId": int, "stationName": String,
                           "stationLong": double, "stationLat": double,
-                          "chainName": String, "isInFavorites": boolean }]
+                          "isInFavorites": boolean }]
 ```

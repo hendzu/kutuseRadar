@@ -5,6 +5,7 @@ import ee.bcs.backend.controller.dto.MessageResponseDto;
 import ee.bcs.backend.controller.fuel.dto.BestPriceDto;
 import ee.bcs.backend.controller.station.dto.StationDto;
 import ee.bcs.backend.controller.station.dto.StationFuelPriceDto;
+import ee.bcs.backend.controller.station.dto.StationLocationDto;
 import ee.bcs.backend.controller.station.dto.StationOptionDto;
 import ee.bcs.backend.infrastructure.exception.DataNotFoundException;
 import ee.bcs.backend.persistence.chainimage.ChainImage;
@@ -154,5 +155,31 @@ public class StationService {
         dto.setChainLogo(chainLogo);
         dto.setFuels(fuels);
         return dto;
+    }
+
+    public List<StationLocationDto> getStationLocations(Integer userId) {
+        List<Station> stations = stationRepository.findByStatus(Status.ACTIVE.getCode());
+        List<FavoriteStation> favorites = new ArrayList<>();
+        if (userId != null) {
+            favorites = favoriteStationRepository.findFavoriteStationBy(userId);
+        }
+        List<StationLocationDto> result = new ArrayList<>();
+        for (Station station : stations) {
+            StationLocationDto dto = new StationLocationDto();
+                    dto.setStationId(station.getId());
+                    dto.setStationName(station.getName());
+                    dto.setStationLat(station.getLat().doubleValue());
+                    dto.setStationLong(station.getLng().doubleValue());
+                    dto.setIsInFavorites(false);
+            for (FavoriteStation favorite : favorites) {
+                if (favorite.getStation().getId().equals(station.getId())) {
+                    dto.setIsInFavorites(true);
+                }
+            }
+        result.add(dto);
+
+        }
+        return result;
+
     }
 }

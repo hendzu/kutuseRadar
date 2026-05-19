@@ -4,6 +4,7 @@ package ee.bcs.backend.controller.station;
 import ee.bcs.backend.controller.dto.MessageResponseDto;
 import ee.bcs.backend.controller.fuel.dto.BestPriceDto;
 import ee.bcs.backend.controller.station.dto.StationDto;
+import ee.bcs.backend.controller.station.dto.StationLocationDto;
 import ee.bcs.backend.controller.station.dto.StationOptionDto;
 import ee.bcs.backend.service.StationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -72,5 +73,17 @@ public class StationController {
             @ApiResponse(responseCode = "200", description = "OK"),})
     public StationDto getStationDetail(@RequestParam Integer stationId, @RequestParam(required = false) Integer userId) {
         return stationService.getStationDetail(stationId, userId);
+    }
+
+    @GetMapping("/location")
+    @Operation(summary = "Kuvab kõik jaama andmed kaardi jaoks",
+            description = """
+                    
+                    """)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),})
+    public List<StationLocationDto> getStationLocations(@RequestParam(required = false) Integer userId) {
+        return stationService.getStationLocations(userId);
+
     }
 }

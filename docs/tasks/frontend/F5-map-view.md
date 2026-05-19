@@ -21,7 +21,7 @@ Route: `/map`
 
 ## Required Backend Tasks
 
-- [ ] [B06 — GET /api/station/location (map markers)](../backend/B06-station-location-map.md)
+- [ ] [B06 — GET /api/station/location (map markers)](../backend/done/B06-station-location-map.md)
 - [ ] [B05 — GET /api/station (station detail)](../backend/B05-station-detail.md)
 
 ## API

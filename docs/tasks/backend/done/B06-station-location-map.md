@@ -2,8 +2,8 @@
 
 Used by MapView to place markers.
 
-- [ ] Accept optional query param `userId`
-- [ ] Return all active stations with coordinates and favorites flag
+- [x] Accept optional query param `userId`
+- [x] Return all active stations with coordinates and favorites flag
 
 ```
 GET /api/station/location?userId=y

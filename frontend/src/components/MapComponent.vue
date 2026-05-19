@@ -39,12 +39,10 @@ onMounted(() => {
     const call = isFav
       ? StationService.deleteFavorite(id, userId)
       : StationService.addFavorite(id, userId)
-    call
-      .then(() => {
-        favoriteState[id] = !isFav
-        document.getElementById('star-' + id).textContent = favoriteState[id] ? '★' : '☆'
-      })
-      .catch((err) => console.log(err))
+    call.then(() => {
+      favoriteState[id] = !isFav
+      document.getElementById('star-' + id).textContent = favoriteState[id] ? '★' : '☆'
+    })
   }
 
   // 1) Toob kõik jaamad koordinaatidega

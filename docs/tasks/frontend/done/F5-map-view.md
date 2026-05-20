@@ -3,25 +3,25 @@
 Route: `/map`
 
 ## UI
-- [ ] Text: "Kaardilt leiad mugavalt lähima tankla"
-- [ ] Map with a marker per station (station name shown as label)
-- [ ] Clicking a marker opens a popup card:
+- [x] Text: "Kaardilt leiad mugavalt lähima tankla"
+- [x] Map with a marker per station (station name shown as label)
+- [x] Clicking a marker opens a popup card:
   - Station name and chain logo image
   - Star (☆/★) to toggle favorite
   - "Lisa hetke hind" link → navigates to `/price?stationId=x`
   - "Vaata tanklat" link → navigates to `/station?stationId=x`
 
 ## Logic
-- [ ] On mount call `GET /api/station/location?userId=y` to get all station coordinates
+- [x] On mount call `GET /api/station/location?userId=y` to get all station coordinates
   - Pass `userId` from localStorage (omit if not logged in)
-- [ ] Render a map (e.g. Leaflet) with one marker per station
-- [ ] On marker click: fetch station detail via `GET /api/station?stationId=x&userId=y` and show popup
-- [ ] Unknown/unexpected API errors → `NavigationService.navigateToErrorView()`
+- [x] Render a map (e.g. Leaflet) with one marker per station
+- [x] On marker click: fetch station detail via `GET /api/station?stationId=x&userId=y` and show popup
+- [x] Unknown/unexpected API errors → `NavigationService.navigateToErrorView()`
 
 ## Required Backend Tasks
 
-- [ ] [B06 — GET /api/station/location (map markers)](../backend/done/B06-station-location-map.md)
-- [ ] [B05 — GET /api/station (station detail)](../backend/B05-station-detail.md)
+- [x] [B06 — GET /api/station/location (map markers)](../../backend/done/B06-station-location-map.md)
+- [x] [B05 — GET /api/station (station detail)](../backend/B05-station-detail.md)
 
 ## API
 ```

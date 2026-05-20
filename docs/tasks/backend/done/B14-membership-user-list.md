@@ -2,8 +2,8 @@
 
 Used by MembershipView to populate the table.
 
-- [ ] Accept query param `userId`
-- [ ] Return all memberships linked to that user
+- [x] Accept query param `userId`
+- [x] Return all memberships linked to that user
 
 ```
 GET /api/memberships/user?userId=y

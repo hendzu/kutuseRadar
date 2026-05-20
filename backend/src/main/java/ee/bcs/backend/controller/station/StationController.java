@@ -3,6 +3,7 @@ package ee.bcs.backend.controller.station;
 
 import ee.bcs.backend.controller.dto.MessageResponseDto;
 import ee.bcs.backend.controller.fuel.dto.BestPriceDto;
+import ee.bcs.backend.controller.station.dto.NearbyStationDto;
 import ee.bcs.backend.controller.station.dto.StationDto;
 import ee.bcs.backend.controller.station.dto.StationLocationDto;
 import ee.bcs.backend.controller.station.dto.StationOptionDto;
@@ -85,5 +86,16 @@ public class StationController {
     public List<StationLocationDto> getStationLocations(@RequestParam(required = false) Integer userId) {
         return stationService.getStationLocations(userId);
 
+    }
+    @GetMapping("/location/nearby")
+    @Operation(summary = "Tagastab kõik lähedased tanklad.",
+            description = """
+                    Leiab tanklast antud raadiuse(km) sees olevad teised tanklad hinna võrdluseks.
+                    """)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),})
+    public List<NearbyStationDto> getNearbyStations(Integer stationId, Integer searchRadius, @RequestParam(required = false) Integer userId){
+
+        return stationService.getNearbyStations(stationId,searchRadius,userId);
     }
 }

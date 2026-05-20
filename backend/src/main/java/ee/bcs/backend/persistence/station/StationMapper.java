@@ -1,5 +1,6 @@
 package ee.bcs.backend.persistence.station;
 
+import ee.bcs.backend.controller.station.dto.NearbyStationDto;
 import ee.bcs.backend.controller.station.dto.StationOptionDto;
 import org.mapstruct.*;
 
@@ -15,6 +16,8 @@ public interface StationMapper {
     List<StationOptionDto> toStationOptionDtos(List<Station> stations);
 
 
-
+    @Mapping(target="id",source = "id")
+    @Mapping(target="name",source = "name")
+    NearbyStationDto toNearbyStationDto(Station station);
 
 }

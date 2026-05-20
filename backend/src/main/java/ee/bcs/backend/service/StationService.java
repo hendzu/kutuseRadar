@@ -3,10 +3,7 @@ package ee.bcs.backend.service;
 import ee.bcs.backend.Status;
 import ee.bcs.backend.controller.dto.MessageResponseDto;
 import ee.bcs.backend.controller.fuel.dto.BestPriceDto;
-import ee.bcs.backend.controller.station.dto.StationDto;
-import ee.bcs.backend.controller.station.dto.StationFuelPriceDto;
-import ee.bcs.backend.controller.station.dto.StationLocationDto;
-import ee.bcs.backend.controller.station.dto.StationOptionDto;
+import ee.bcs.backend.controller.station.dto.*;
 import ee.bcs.backend.infrastructure.exception.DataNotFoundException;
 import ee.bcs.backend.persistence.chainimage.ChainImage;
 import ee.bcs.backend.persistence.chainimage.ChainImageRepository;
@@ -22,6 +19,7 @@ import ee.bcs.backend.persistence.stationfuelprice.StationFuelPriceRepository;
 import ee.bcs.backend.persistence.user.UserRepository;
 import ee.bcs.backend.persistence.usermembership.UserMembership;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -73,6 +71,95 @@ public class StationService {
         return result;
     }
 
+    public MessageResponseDto addFavorite(Integer stationId, Integer userId) {
+        FavoriteStation favoriteStation = new FavoriteStation();
+        favoriteStation.setStation(stationRepository.getReferenceById(stationId));
+        favoriteStation.setUser(userRepository.getReferenceById(userId));
+        favoriteStationRepository.save(favoriteStation);
+        return new MessageResponseDto("Lemmikjaam lisatud!");
+    }
+
+    public MessageResponseDto deleteFavorite(Integer stationId, Integer userId) {
+        favoriteStationRepository.deleteByUser_IdAndStation_Id(userId, stationId);
+        return new MessageResponseDto("Lemmikjaam kustutatud!");
+
+    }
+
+    public StationDto getStationDetail(Integer stationId, Integer userId) {
+        Station station = stationRepository.findById(stationId)
+                .orElseThrow(() -> new DataNotFoundException("Jaama ei leitud", 404));
+
+        boolean isFavorite = userId != null &&
+                favoriteStationRepository.existsByUser_IdAndStation_Id(userId, stationId);
+
+
+        String chainLogo = null;
+        ChainImage chainImage = chainImageRepository.findByChain_Id(station.getChain().getId()).orElse(null);
+        if (chainImage != null) {
+            chainLogo = Base64.getEncoder().encodeToString(chainImage.getLogo());
+        }
+
+        List<StationFuelPrice> prices = stationFuelPriceRepository
+                .findLatestPriceByStationId(stationId, Status.ACTIVE.getCode());
+        List<UserMembership> userMemberships = findUserMemberships(userId);
+        for (StationFuelPrice price : prices) {
+            applyMembershipDiscount(price, userMemberships);
+        }
+
+        List<StationFuelPriceDto> fuels = getStationFuelPriceDtos(prices);
+
+        StationDto dto = new StationDto();
+        dto.setStationId(stationId);
+        dto.setStationName(station.getName());
+        dto.setStationFavorite(isFavorite);
+        dto.setChainName(station.getChain().getName());
+        dto.setChainLogo(chainLogo);
+        dto.setFuels(fuels);
+        return dto;
+    }
+
+
+    public List<StationLocationDto> getStationLocations(Integer userId) {
+        List<Station> stations = stationRepository.findByStatus(Status.ACTIVE.getCode());
+        List<FavoriteStation> favorites = new ArrayList<>();
+        if (userId != null) {
+            favorites = favoriteStationRepository.findFavoriteStationBy(userId);
+        }
+        List<StationLocationDto> result = new ArrayList<>();
+        for (Station station : stations) {
+            StationLocationDto dto = new StationLocationDto();
+            dto.setStationId(station.getId());
+            dto.setStationName(station.getName());
+            dto.setStationLat(station.getLat().doubleValue());
+            dto.setStationLong(station.getLng().doubleValue());
+            dto.setIsInFavorites(false);
+            for (FavoriteStation favorite : favorites) {
+                if (favorite.getStation().getId().equals(station.getId())) {
+                    dto.setIsInFavorites(true);
+                }
+            }
+            result.add(dto);
+
+        }
+        return result;
+
+    }
+
+    public List<NearbyStationDto> getNearbyStations(Integer stationId, Integer searchRadius, Integer userId) {
+        List<Station> stations = stationRepository.findAll();
+        List<UserMembership> userMemberships = findUserMemberships(userId);
+        Station selectedStation = stations.stream()
+                .filter(s -> s.getId().equals(stationId))
+                .findFirst()
+                .orElseThrow();
+        stations.remove(selectedStation);
+        List<NearbyStationDto> nearbyStations = new ArrayList<>();
+        for (Station station : stations) {
+            handleOtherStations(searchRadius, station, selectedStation, userMemberships, nearbyStations);
+        }
+        return nearbyStations;
+    }
+
     private void addBestPriceToList(List<StationFuelPrice> stationFuelPrices, List<UserMembership> userMemberships, List<BestPriceDto> bestPriceDtos) {
         StationFuelPrice bestStationFuelPrice = stationFuelPrices.getFirst();
         for (StationFuelPrice stationFuelPrice : stationFuelPrices) {
@@ -108,78 +195,46 @@ public class StationService {
         return stationFuelPriceRepository.findLowestLatestPriceByFuelId(fuelType.getId(), Status.ACTIVE.getCode());
     }
 
-    public MessageResponseDto addFavorite(Integer stationId, Integer userId) {
-        FavoriteStation favoriteStation = new FavoriteStation();
-        favoriteStation.setStation(stationRepository.getReferenceById(stationId));
-        favoriteStation.setUser(userRepository.getReferenceById(userId));
-        favoriteStationRepository.save(favoriteStation);
-                return new MessageResponseDto("Lemmikjaam lisatud!");
-    }
-    public MessageResponseDto deleteFavorite(Integer stationId, Integer userId) {
-        favoriteStationRepository.deleteByUser_IdAndStation_Id(userId,stationId);
-        return new MessageResponseDto("Lemmikjaam kustutatud!");
 
-    }
-    public StationDto getStationDetail(Integer stationId, Integer userId) {
-        Station station = stationRepository.findById(stationId)
-                .orElseThrow(() -> new DataNotFoundException("Jaama ei leitud", 404));
-
-        boolean isFavorite = userId != null &&
-                favoriteStationRepository.existsByUser_IdAndStation_Id(userId, stationId);
-
-
-
-        String chainLogo = null;
-        ChainImage chainImage = chainImageRepository.findByChain_Id(station.getChain().getId()).orElse(null);
-        if (chainImage != null) {
-            chainLogo = Base64.getEncoder().encodeToString(chainImage.getLogo());
-        }
-
-        List<StationFuelPrice> prices = stationFuelPriceRepository
-                .findLatestPriceByStationId(stationId, Status.ACTIVE.getCode());
-        List<UserMembership> userMemberships = findUserMemberships(userId);
-        for (StationFuelPrice price : prices) {
-            applyMembershipDiscount(price, userMemberships);
-        }
-
+    private List<StationFuelPriceDto> getStationFuelPriceDtos(List<StationFuelPrice> prices) {
         List<StationFuelPriceDto> fuels = new ArrayList<>();
         for (StationFuelPrice price : prices) {
             fuels.add(stationFuelPriceMapper.toStationFuelPriceDto(price));
         }
-
-        StationDto dto = new StationDto();
-        dto.setStationId(stationId);
-        dto.setStationName(station.getName());
-        dto.setStationFavorite(isFavorite);
-        dto.setChainName(station.getChain().getName());
-        dto.setChainLogo(chainLogo);
-        dto.setFuels(fuels);
-        return dto;
+        return fuels;
     }
 
-    public List<StationLocationDto> getStationLocations(Integer userId) {
-        List<Station> stations = stationRepository.findByStatus(Status.ACTIVE.getCode());
-        List<FavoriteStation> favorites = new ArrayList<>();
-        if (userId != null) {
-            favorites = favoriteStationRepository.findFavoriteStationBy(userId);
-        }
-        List<StationLocationDto> result = new ArrayList<>();
-        for (Station station : stations) {
-            StationLocationDto dto = new StationLocationDto();
-                    dto.setStationId(station.getId());
-                    dto.setStationName(station.getName());
-                    dto.setStationLat(station.getLat().doubleValue());
-                    dto.setStationLong(station.getLng().doubleValue());
-                    dto.setIsInFavorites(false);
-            for (FavoriteStation favorite : favorites) {
-                if (favorite.getStation().getId().equals(station.getId())) {
-                    dto.setIsInFavorites(true);
-                }
-            }
-        result.add(dto);
+
+    private void handleOtherStations(Integer searchRadius, Station station, Station selectedStation, List<UserMembership> userMemberships, List<NearbyStationDto> nearbyStations) {
+        if (getDistance(station, selectedStation) < searchRadius) {
+            NearbyStationDto nearbyStationDto = createNearbyStationDto(station, selectedStation, userMemberships);
+            nearbyStations.add(nearbyStationDto);
 
         }
-        return result;
+    }
 
+    private @NonNull NearbyStationDto createNearbyStationDto(Station station, Station selectedStation, List<UserMembership> userMemberships) {
+        NearbyStationDto nearbyStationDto = stationMapper.toNearbyStationDto(station);
+        nearbyStationDto.setDistance(getDistance(station, selectedStation));
+        List<StationFuelPrice> latestFuelPrices = stationFuelPriceRepository.findLatestPriceByStationId(station.getId(), Status.ACTIVE.getCode());
+        for (StationFuelPrice latestFuelPrice : latestFuelPrices) {
+            applyMembershipDiscount(latestFuelPrice, userMemberships);
+        }
+        nearbyStationDto.setFuels(getStationFuelPriceDtos(latestFuelPrices));
+        return nearbyStationDto;
+    }
+
+
+    private Double getDistance(Station stationA, Station stationB) {
+        double latA = stationA.getLat().doubleValue();
+        double latB = stationB.getLat().doubleValue();
+        double lngA = stationA.getLng().doubleValue();
+        double lngB = stationB.getLng().doubleValue();
+        double theta = lngA - lngB;
+        double dist = Math.sin(Math.toRadians(latA)) * Math.sin(Math.toRadians(latB)) + Math.cos(Math.toRadians(latA)) * Math.cos(Math.toRadians(latB)) * Math.cos(Math.toRadians(theta));
+        dist = Math.acos(dist);
+        dist = Math.toDegrees(dist);
+        dist = dist * 60 * 1.1515;
+        return dist;
     }
 }

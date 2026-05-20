@@ -17,6 +17,7 @@ public class FuelService {
     private final FuelRepository fuelRepository;
     private final FuelMapper fuelMapper;
 
+
     public List<Fuel> getFuelTypes() {
         return fuelRepository.findAll();
     }

@@ -2,7 +2,7 @@
 
 Used by MembershipView chain dropdown.
 
-- [ ] Return all active chains
+- [x] Return all active chains
 
 ```
 GET /api/chains

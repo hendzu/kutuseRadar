@@ -2,9 +2,9 @@
 
 Used by StationView nearby stations table.
 
-- [ ] Accept query params `stationId` and `kaugus` (max distance in km)
-- [ ] Return all stations within `kaugus` km of the given station
-- [ ] Include latest fuel prices and membership discount per station
+- [x] Accept query params `stationId` and `kaugus` (max distance in km)
+- [x] Return all stations within `kaugus` km of the given station
+- [x] Include latest fuel prices and membership discount per station
 
 ```
 GET /api/station/nearby?stationId=x&kaugus=z

@@ -59,7 +59,9 @@ onMounted(() => {
           StationService.getStationDetail(station.stationId, userId)
             .then((response) => {
               // 4) Ehitab popup sisu ja avab selle markeri peal
-              const logo = ''
+              const logo = response.data.chainLogo ? `<img src="data:image/png;base64,${response.data.chainLogo}" style="height:40px"><br>`
+                  : ''
+
               const favorite = favoriteState[station.stationId] ? '★' : '☆'
               const star = userId
                 ? `<span id="star-${station.stationId}" onclick="window.toggleFavorite(${station.stationId})" style="cursor:pointer;font-size:18px">${favorite}</span>`

@@ -16,7 +16,7 @@ export default {
     router.push({ name: 'loginRoute' })
   },
   navigateToStationView(stationId) {
-    router.push({ name: 'stationRoute', query: {stationId: stationId}})
+    router.push({ name: 'stationRoute', params: {stationId: stationId}})
   },
   navigateToAddPriceView(stationId) {
     router.push({ name: 'addPriceRoute', params: {stationId: stationId}})

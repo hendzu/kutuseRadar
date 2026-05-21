@@ -39,7 +39,12 @@ INSERT INTO station (id, chain_id, name, lng, lat, status) VALUES (3, 2, 'Circle
 INSERT INTO station (id, chain_id, name, lng, lat, status) VALUES (4, 2, 'Circle K Ülemiste', 24.809456, 59.419012, 'A');
 INSERT INTO station (id, chain_id, name, lng, lat, status) VALUES (5, 3, 'Neste Laagri',       24.629789, 59.344567, 'A');
 INSERT INTO station (id, chain_id, name, lng, lat, status) VALUES (6, 3, 'Neste Järvevana',    24.723456, 59.418901, 'A');
-INSERT INTO station (id, chain_id, name, lng, lat, status) VALUES (7, 4, 'Alexela Pärnu mnt', 24.712345, 59.420123, 'D');
+INSERT INTO station (id, chain_id, name, lng, lat, status) VALUES (7,  4, 'Alexela Pärnu mnt',    24.712345, 59.420123, 'D');
+INSERT INTO station (id, chain_id, name, lng, lat, status) VALUES (8,  1, 'Olerex Tartu Ringtee', 26.727890, 58.364123, 'A');
+INSERT INTO station (id, chain_id, name, lng, lat, status) VALUES (9,  2, 'Circle K Tartu Kaubamaja', 26.718456, 58.380234, 'A');
+INSERT INTO station (id, chain_id, name, lng, lat, status) VALUES (10, 3, 'Neste Pärnu Rääma',    24.536789, 58.385678, 'A');
+INSERT INTO station (id, chain_id, name, lng, lat, status) VALUES (11, 1, 'Olerex Narva',         28.179012, 59.377345, 'A');
+INSERT INTO station (id, chain_id, name, lng, lat, status) VALUES (12, 2, 'Circle K Viljandi',    25.597234, 58.363456, 'A');
 
 
 -- station_fuel (which fuel types are available at each station)
@@ -69,8 +74,28 @@ INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (17, 6, 1, 'A'
 INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (18, 6, 3, 'A');
 INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (19, 6, 4, 'A');
 -- Alexela Pärnu mnt: 95, Diisel (chain is inactive)
-INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (20, 7, 1, 'D');
-INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (21, 7, 3, 'D');
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (20, 7,  1, 'D');
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (21, 7,  3, 'D');
+-- Olerex Tartu Ringtee: 95, 98, Diisel, AdBlue
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (22, 8,  1, 'A');
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (23, 8,  2, 'A');
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (24, 8,  3, 'A');
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (25, 8,  4, 'A');
+-- Circle K Tartu Kaubamaja: 95, 98, Diisel, CNG
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (26, 9,  1, 'A');
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (27, 9,  2, 'A');
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (28, 9,  3, 'A');
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (29, 9,  5, 'A');
+-- Neste Pärnu Rääma: 95, 98, Diisel
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (30, 10, 1, 'A');
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (31, 10, 2, 'A');
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (32, 10, 3, 'A');
+-- Olerex Narva: 95, Diisel
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (33, 11, 1, 'A');
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (34, 11, 3, 'A');
+-- Circle K Viljandi: 95, Diisel
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (35, 12, 1, 'A');
+INSERT INTO station_fuel (id, station_id, fuel_id, status) VALUES (36, 12, 3, 'A');
 
 
 -- station_fuel_price (price history per station_fuel)
@@ -172,6 +197,102 @@ INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUE
 INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (83, 2, 18, 1.509, '2026-04-25 09:00:00');
 INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (84, 1, 18, 1.519, '2026-05-01 08:00:00');
 INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (85, 3, 18, 1.539, '2026-05-15 08:00:00');
+-- Olerex Tartu Ringtee - 95 (station_fuel id=22)
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (86,  1, 22, 1.683, '2026-03-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (87,  2, 22, 1.693, '2026-03-15 09:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (88,  1, 22, 1.703, '2026-04-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (89,  3, 22, 1.713, '2026-04-20 10:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (90,  1, 22, 1.723, '2026-05-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (91,  2, 22, 1.743, '2026-05-10 09:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (92,  3, 22, 1.763, '2026-05-20 08:00:00');
+-- Olerex Tartu Ringtee - 98 (station_fuel id=23)
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (93,  1, 23, 1.833, '2026-03-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (94,  3, 23, 1.843, '2026-03-15 10:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (95,  1, 23, 1.853, '2026-04-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (96,  2, 23, 1.863, '2026-04-20 11:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (97,  1, 23, 1.873, '2026-05-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (98,  3, 23, 1.893, '2026-05-15 08:00:00');
+-- Olerex Tartu Ringtee - Diisel (station_fuel id=24)
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (99,  1, 24, 1.483, '2026-03-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (100, 2, 24, 1.493, '2026-03-20 09:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (101, 1, 24, 1.503, '2026-04-05 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (102, 3, 24, 1.513, '2026-04-20 10:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (103, 1, 24, 1.523, '2026-05-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (104, 2, 24, 1.543, '2026-05-15 08:00:00');
+-- Circle K Tartu Kaubamaja - 95 (station_fuel id=26)
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (105, 1, 26, 1.693, '2026-03-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (106, 3, 26, 1.703, '2026-03-15 10:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (107, 1, 26, 1.713, '2026-04-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (108, 2, 26, 1.723, '2026-04-20 11:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (109, 1, 26, 1.733, '2026-05-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (110, 3, 26, 1.753, '2026-05-10 14:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (111, 2, 26, 1.763, '2026-05-20 08:00:00');
+-- Circle K Tartu Kaubamaja - 98 (station_fuel id=27)
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (112, 1, 27, 1.843, '2026-03-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (113, 3, 27, 1.853, '2026-03-15 10:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (114, 1, 27, 1.863, '2026-04-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (115, 2, 27, 1.873, '2026-04-20 11:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (116, 1, 27, 1.883, '2026-05-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (117, 3, 27, 1.903, '2026-05-15 08:00:00');
+-- Circle K Tartu Kaubamaja - Diisel (station_fuel id=28)
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (118, 1, 28, 1.493, '2026-03-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (119, 3, 28, 1.503, '2026-03-20 10:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (120, 1, 28, 1.513, '2026-04-10 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (121, 2, 28, 1.523, '2026-04-25 09:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (122, 1, 28, 1.533, '2026-05-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (123, 3, 28, 1.553, '2026-05-15 08:00:00');
+-- Neste Pärnu Rääma - 95 (station_fuel id=30)
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (124, 1, 30, 1.685, '2026-03-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (125, 2, 30, 1.695, '2026-03-15 09:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (126, 1, 30, 1.705, '2026-04-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (127, 3, 30, 1.715, '2026-04-20 10:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (128, 1, 30, 1.725, '2026-05-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (129, 2, 30, 1.745, '2026-05-10 09:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (130, 3, 30, 1.755, '2026-05-20 08:00:00');
+-- Neste Pärnu Rääma - 98 (station_fuel id=31)
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (131, 1, 31, 1.835, '2026-03-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (132, 3, 31, 1.845, '2026-03-15 10:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (133, 1, 31, 1.855, '2026-04-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (134, 2, 31, 1.865, '2026-04-20 11:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (135, 1, 31, 1.875, '2026-05-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (136, 3, 31, 1.895, '2026-05-15 08:00:00');
+-- Neste Pärnu Rääma - Diisel (station_fuel id=32)
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (137, 1, 32, 1.481, '2026-03-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (138, 3, 32, 1.491, '2026-03-20 10:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (139, 1, 32, 1.501, '2026-04-10 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (140, 2, 32, 1.511, '2026-04-25 09:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (141, 1, 32, 1.521, '2026-05-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (142, 3, 32, 1.541, '2026-05-15 08:00:00');
+-- Olerex Narva - 95 (station_fuel id=33)
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (143, 1, 33, 1.679, '2026-03-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (144, 2, 33, 1.689, '2026-03-15 09:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (145, 1, 33, 1.699, '2026-04-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (146, 3, 33, 1.709, '2026-04-20 10:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (147, 1, 33, 1.719, '2026-05-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (148, 2, 33, 1.739, '2026-05-12 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (149, 3, 33, 1.759, '2026-05-20 08:00:00');
+-- Olerex Narva - Diisel (station_fuel id=34)
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (150, 1, 34, 1.477, '2026-03-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (151, 3, 34, 1.487, '2026-03-20 10:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (152, 1, 34, 1.497, '2026-04-10 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (153, 2, 34, 1.507, '2026-04-25 09:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (154, 1, 34, 1.517, '2026-05-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (155, 3, 34, 1.537, '2026-05-15 08:00:00');
+-- Circle K Viljandi - 95 (station_fuel id=35)
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (156, 1, 35, 1.691, '2026-03-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (157, 2, 35, 1.701, '2026-03-15 09:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (158, 1, 35, 1.711, '2026-04-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (159, 3, 35, 1.721, '2026-04-20 10:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (160, 1, 35, 1.731, '2026-05-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (161, 2, 35, 1.751, '2026-05-12 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (162, 3, 35, 1.761, '2026-05-20 08:00:00');
+-- Circle K Viljandi - Diisel (station_fuel id=36)
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (163, 1, 36, 1.491, '2026-03-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (164, 3, 36, 1.501, '2026-03-20 10:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (165, 1, 36, 1.511, '2026-04-10 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (166, 2, 36, 1.521, '2026-04-25 09:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (167, 1, 36, 1.531, '2026-05-01 08:00:00');
+INSERT INTO station_fuel_price (id, user_id, station_fuel_id, price, time) VALUES (168, 3, 36, 1.551, '2026-05-15 08:00:00');
 
 
 -- memberships

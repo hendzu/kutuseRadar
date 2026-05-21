@@ -16,7 +16,8 @@ const router = createRouter({
       path: '/',
       name: 'homeRoute',
       component: HomeView,
-    }, {
+    },
+    {
       path: '/map',
       name: 'mapRoute',
       component: MapView,
@@ -42,7 +43,7 @@ const router = createRouter({
       component: MembershipView,
     },
     {
-      path: '/station',
+      path: '/station/:stationId?',
       name: 'stationRoute',
       component: StationView,
     },

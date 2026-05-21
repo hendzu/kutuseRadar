@@ -3,6 +3,8 @@ package ee.bcs.backend.service;
 import ee.bcs.backend.Status;
 import ee.bcs.backend.controller.dto.MessageResponseDto;
 import ee.bcs.backend.controller.fuel.dto.BestPriceDto;
+import ee.bcs.backend.controller.fuelprice.dto.PriceTimeDto;
+import ee.bcs.backend.controller.fuelprice.dto.StationFuelPriceTimeDto;
 import ee.bcs.backend.controller.station.dto.*;
 import ee.bcs.backend.infrastructure.exception.DataNotFoundException;
 import ee.bcs.backend.persistence.chainimage.ChainImage;
@@ -22,9 +24,7 @@ import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -236,5 +236,27 @@ public class StationService {
         dist = Math.toDegrees(dist);
         dist = dist * 60 * 1.1515;
         return dist;
+    }
+
+    public List<StationFuelPriceTimeDto> getPriceHistory(Integer stationId) {
+        List<StationFuelPrice> stationFuelPrices = stationFuelPriceRepository.findStationFuelPriceBy(stationId);
+        Map<String, StationFuelPriceTimeDto> stationPriceHistoryMapToFuelName = new LinkedHashMap<>();
+        for (StationFuelPrice stationFuelPrice:stationFuelPrices){
+            String fuelName = stationFuelPrice.getStationFuel().getFuel().getName();
+
+            stationPriceHistoryMapToFuelName.computeIfAbsent(fuelName, name -> {
+                StationFuelPriceTimeDto stationFuelPriceTimeDto = new StationFuelPriceTimeDto();
+                stationFuelPriceTimeDto.setFuelName(name);
+                stationFuelPriceTimeDto.setFuelPrice(new ArrayList<>());
+                return stationFuelPriceTimeDto;
+            });
+
+            PriceTimeDto priceTimeDto = new PriceTimeDto();
+            priceTimeDto.setPrice(stationFuelPrice.getPrice());
+            priceTimeDto.setTime(stationFuelPrice.getTime());
+            stationPriceHistoryMapToFuelName.get(fuelName).getFuelPrice().add(priceTimeDto);
+
+        }
+        return new ArrayList<>(stationPriceHistoryMapToFuelName.values());
     }
 }

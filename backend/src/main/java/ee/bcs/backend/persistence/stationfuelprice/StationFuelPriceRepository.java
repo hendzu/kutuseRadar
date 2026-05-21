@@ -26,5 +26,14 @@ public interface StationFuelPriceRepository extends JpaRepository<StationFuelPri
         )
       ORDER BY s.stationFuel.fuel.name ASC
       """)
-    List<StationFuelPrice> findLatestPriceByStationId(Integer stationId, String status);}
+    List<StationFuelPrice> findLatestPriceByStationId(Integer stationId, String status);
+
+    @Query("select s from StationFuelPrice s where s.stationFuel.station.id = ?1 order by s.stationFuel.fuel.id, s.time")
+    List<StationFuelPrice> findStationFuelPriceBy(Integer id);
+
+
+}
+
+
+
 

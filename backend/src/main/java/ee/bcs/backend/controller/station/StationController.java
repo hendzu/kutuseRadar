@@ -3,6 +3,7 @@ package ee.bcs.backend.controller.station;
 
 import ee.bcs.backend.controller.dto.MessageResponseDto;
 import ee.bcs.backend.controller.fuel.dto.BestPriceDto;
+import ee.bcs.backend.controller.fuelprice.dto.StationFuelPriceTimeDto;
 import ee.bcs.backend.controller.station.dto.NearbyStationDto;
 import ee.bcs.backend.controller.station.dto.StationDto;
 import ee.bcs.backend.controller.station.dto.StationLocationDto;
@@ -97,5 +98,15 @@ public class StationController {
     public List<NearbyStationDto> getNearbyStations(Integer stationId, Integer searchRadius, @RequestParam(required = false) Integer userId){
 
         return stationService.getNearbyStations(stationId,searchRadius,userId);
+    }@GetMapping("/history")
+    @Operation(summary = "Tagastab tankla hinna ajaloo.",
+            description = """
+                    
+                    """)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),})
+    public List<StationFuelPriceTimeDto> getPriceHistory(Integer stationId){
+
+        return stationService.getPriceHistory(stationId);
     }
 }

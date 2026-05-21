@@ -18,6 +18,7 @@
     "@vueform/multiselect": "^2.6.11",
     "axios": "^1.14.0",
     "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
     "pinia": "^3.0.4",
     "vue": "^3.5.31",
     "vue-router": "^5.0.4"

@@ -3,13 +3,13 @@
 Route: `/station?stationId=n`
 
 ## UI — left panel: station card
-- [ ] Chain logo + station name + star (☆/★) for favorite
-- [ ] Fuel type badges: 95 | 98 | D | LPG | CNG (circular)
-- [ ] Price row: €/l for each fuel type
+- [x] Chain logo + station name + star (☆/★) for favorite
+- [x] Fuel type badges: 95 | 98 | D | LPG | CNG (circular)
+- [x] Price row: €/l for each fuel type
 - [ ] "Lisa hetke hind" link → navigates to `/price?stationId=x`
 
 ## UI — right panel: nearby stations table
-- [ ] Fuel type filter dropdown (kõik / 95 / 98 / ...)
+- [x] Fuel type filter dropdown (kõik / 95 / 98 / ...)
 - [ ] Sort dropdown: "Hinna järgi" / "Läheduse järg"
 - [ ] Max kaugus km number input (default 4)
 - [ ] Table columns: tankla | kütus | hind | delta | kaugus

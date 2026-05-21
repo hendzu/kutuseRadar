@@ -15,7 +15,22 @@
           </div>
           <div v-else class="container">
             <div class="row">
-              <h2>{{ stationDetail.stationName }}</h2>
+              <h2>
+                <img
+                  :src="`data:image/*;base64,${stationDetail.chainLogo}`"
+                  class="img-thumbnail"
+                  alt=""
+                />
+                {{ stationDetail.stationName }}
+                <span v-if="isLoggedIn">
+                  <i
+                    v-if="stationDetail.stationFavorite"
+                    @click="removeFavorite"
+                    class="bi bi-star-fill"
+                  ></i>
+                  <i v-else @click="addFavorite" class="bi bi-star"></i>
+                </span>
+              </h2>
             </div>
             <div class="row justify-content-center">
               <div v-for="item in stationDetail.fuels" :key="item.fuelName" class="col-auto">
@@ -40,6 +55,26 @@
             />
           </div>
         </div>
+        <div class="row">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Tanklad</th>
+                <th scope="col">Hind €/l</th>
+                <th scope="col">Δ</th>
+                <th scope="col">Kaugus</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -51,6 +86,8 @@ import StationService from '@/api-services/StationService.js'
 import NavigationService from '@/navigation/NavigationService.js'
 import FuelSelect from '@/components/FuelSelect.vue'
 import FuelService from '@/api-services/FuelService.js'
+import AuthService from '@/auth/AuthService.js'
+import stationService from '@/api-services/StationService.js'
 
 export default {
   name: 'StationView',
@@ -87,6 +124,11 @@ export default {
       ],
     }
   },
+  computed: {
+    isLoggedIn() {
+      return AuthService.isLoggedIn()
+    },
+  },
   methods: {
     checkPathForStation() {
       if (this.$route.params.stationId) {
@@ -117,6 +159,17 @@ export default {
         .catch(() => NavigationService.navigateToErrorView())
         .finally()
     },
+    addFavorite() {
+      stationService.addFavorite(this.stationId, localStorage.getItem('userId'))
+      this.stationDetail.stationFavorite = true
+    },
+    removeFavorite() {
+      stationService.deleteFavorite(this.stationId, localStorage.getItem('userId'))
+      this.stationDetail.stationFavorite = false
+    },
+    getNearbyStations(){
+
+    }
   },
   beforeMount() {
     this.checkPathForStation()

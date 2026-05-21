@@ -33,10 +33,10 @@ Requires login (redirect to `/login` if not authenticated)
 
 - [ ] [B14 — GET /api/memberships/user (user membership list)](../backend/done/B14-membership-user-list.md)
 - [ ] [B15 — GET /api/chains (chain list for dropdown)](../backend/done/B15-chain-list.md)
-- [ ] [B16 — GET /api/memberships (membership options by chain)](../backend/B16-membership-options.md)
-- [ ] [B17 — POST /api/memberships/user (add membership)](../backend/B17-membership-add.md)
-- [ ] [B18 — PUT /api/memberships/user (update membership)](../backend/B18-membership-update.md)
-- [ ] [B19 — DELETE /api/memberships/user (delete membership)](../backend/B19-membership-delete.md)
+- [ ] [B16 — GET /api/memberships (membership options by chain)](../backend/done/B16-membership-options.md)
+- [ ] [B17 — POST /api/memberships/user (add membership)](../backend/done/B17-membership-add.md)
+- [ ] [B18 — PUT /api/memberships/user (update membership)](../backend/done/B18-membership-update.md)
+- [ ] [B19 — DELETE /api/memberships/user (delete membership)](../backend/done/B19-membership-delete.md)
 
 ## API
 ```

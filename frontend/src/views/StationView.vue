@@ -53,6 +53,9 @@
                 </button>
               </div>
             </div>
+            <div class="row mb-3">
+              <PriceHistoryChart :history="priceHistory" />
+            </div>
           </div>
         </div>
       </div>
@@ -127,10 +130,11 @@ import FuelSelect from '@/components/FuelSelect.vue'
 import FuelService from '@/api-services/FuelService.js'
 import AuthService from '@/auth/AuthService.js'
 import navigationService from '@/navigation/NavigationService.js'
+import PriceHistoryChart from '@/components/PriceHistoryChart.vue'
 
 export default {
   name: 'StationView',
-  components: { FuelSelect, StationSelect },
+  components: { FuelSelect, StationSelect, PriceHistoryChart },
   data() {
     return {
       stationDetail: {
@@ -159,6 +163,7 @@ export default {
           ],
         },
       ],
+      priceHistory: [],
       stationId: 0,
       fuelId: 1,
       fuelName: '',
@@ -235,12 +240,19 @@ export default {
     getFuelName() {
       this.fuelName = this.fuels.find((f) => f.fuelId === this.fuelId)?.fuelName
     },
+    getPriceHistory() {
+      StationService.getPriceHistory(this.stationId)
+        .then((response) => (this.priceHistory = response.data))
+        .catch(() => NavigationService.navigateToErrorView())
+        .finally()
+    },
   },
   beforeMount() {
     this.checkPathForStation()
     this.getStations()
     this.getFuelTypes()
     this.getStationDetail()
+    this.getPriceHistory()
   },
   watch: {
     stationId() {
@@ -250,6 +262,7 @@ export default {
       this.stationId = newId
       this.getStationDetail()
       this.getNearbyStations()
+      this.getPriceHistory()
     },
     fuelId() {
       this.getFuelName()

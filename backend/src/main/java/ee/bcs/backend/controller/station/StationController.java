@@ -105,7 +105,7 @@ public class StationController {
                     """)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),})
-    public List<StationFuelPriceTimeDto> getPriceHistory(Integer stationId){
+    public List<StationFuelPriceTimeDto> getPriceHistory(@RequestParam Integer stationId){
 
         return stationService.getPriceHistory(stationId);
     }

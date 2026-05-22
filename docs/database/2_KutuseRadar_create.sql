@@ -17,7 +17,7 @@ CREATE TABLE chain_image (
     chain_id int  NOT NULL,
     logo bytea  NOT NULL,
     CONSTRAINT chain_image_pk PRIMARY KEY (id),
-    CONSTRAINT UNIQUE(chain_id)
+    CONSTRAINT chain_id UNIQUE(chain_id)
 );
 
 -- Table: favorite_station
@@ -26,7 +26,7 @@ CREATE TABLE favorite_station (
     user_id int  NOT NULL,
     station_id int  NOT NULL,
     CONSTRAINT favorite_station_pk PRIMARY KEY (id),
-    CONSTRAINT UNIQUE(user_id,station_id)
+    CONSTRAINT favorite_station_user_station UNIQUE(user_id,station_id)
 );
 
 -- Table: fuel
@@ -73,7 +73,7 @@ CREATE TABLE station_fuel (
     fuel_id int  NOT NULL,
     status varchar(1)  NOT NULL,
     CONSTRAINT station_fuel_pk PRIMARY KEY (id),
-    CONSTRAINT UNIQUE(fuel_id,station_id)
+    CONSTRAINT station_fuel_fuel_station UNIQUE(fuel_id,station_id)
 );
 
 CREATE INDEX station_fuel_idx_station on station_fuel (station_id ASC);
@@ -95,8 +95,7 @@ CREATE TABLE station_picture (
     id serial  NOT NULL,
     station_id int  NOT NULL,
     picture bytea  NOT NULL,
-    CONSTRAINT station_picture_pk PRIMARY KEY (id),
-    CONSTRAINT UNIQUE(station_id)
+    CONSTRAINT station_picture_pk PRIMARY KEY (id)
 );
 
 -- Table: user
@@ -116,7 +115,7 @@ CREATE TABLE user_membership (
     user_id int  NOT NULL,
     membership_id int  NOT NULL,
     CONSTRAINT user_membership_pk PRIMARY KEY (id),
-    CONSTRAINT UNIQUE(user_id,membership_id)
+    CONSTRAINT user_membership_user_membership UNIQUE(user_id,membership_id)
 );
 
 -- foreign keys

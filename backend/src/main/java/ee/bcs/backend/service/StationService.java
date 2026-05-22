@@ -257,12 +257,16 @@ public class StationService {
     private @NonNull NearbyStationDto createNearbyStationDto(Station station, Station selectedStation, List<UserMembership> userMemberships) {
         NearbyStationDto nearbyStationDto = stationMapper.toNearbyStationDto(station);
         nearbyStationDto.setDistance(getDistance(station, selectedStation));
+        addFuelPricesToNearbyStationDto(station, userMemberships, nearbyStationDto);
+        return nearbyStationDto;
+    }
+
+    private void addFuelPricesToNearbyStationDto(Station station, List<UserMembership> userMemberships, NearbyStationDto nearbyStationDto) {
         List<StationFuelPrice> latestFuelPrices = stationFuelPriceRepository.findLatestPriceByStationId(station.getId(), Status.ACTIVE.getCode());
         for (StationFuelPrice latestFuelPrice : latestFuelPrices) {
             applyMembershipDiscount(latestFuelPrice, userMemberships);
         }
         nearbyStationDto.setFuels(getStationFuelPriceDtos(latestFuelPrices));
-        return nearbyStationDto;
     }
 
 

@@ -167,7 +167,7 @@ export default {
       stationId: 0,
       fuelId: 1,
       fuelName: '',
-      radius: 0,
+      radius: 3,
       stations: [
         {
           stationId: null,
@@ -253,6 +253,7 @@ export default {
     this.getFuelTypes()
     this.getStationDetail()
     this.getPriceHistory()
+    this.getNearbyStations()
   },
   watch: {
     stationId() {

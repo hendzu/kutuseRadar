@@ -8,7 +8,7 @@
             <span>{{ item.fuelName }}</span>
           </div>
           <p class="text-primary mb-1">{{ item.price }} €/l</p>
-          <p class="text-primary"><i class="bi bi-geo-alt"></i> {{ item.stationName }}</p>
+          <p @click="navigationService.navigateToStationView(item.stationId)" class="text-primary"><i class="bi bi-geo-alt"></i> {{ item.stationName }}</p>
         </div>
       </div>
     </div>
@@ -30,8 +30,14 @@ import stationService from '@/api-services/StationService.js'
 import '@vueform/multiselect/themes/default.css'
 import NavigationService from '@/navigation/NavigationService.js'
 import StationSelect from '@/components/StationSelect.vue'
+import navigationService from "@/navigation/NavigationService.js";
 
 export default {
+  computed: {
+    navigationService() {
+      return navigationService
+    }
+  },
   components: { StationSelect },
   data() {
     return {

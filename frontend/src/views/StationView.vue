@@ -91,7 +91,7 @@
               <tr>
                 <th scope="col">Tanklad</th>
                 <th scope="col">Hind €/l</th>
-                <th scope="col">Δ</th>
+                <th scope="col">Δ €/l</th>
                 <th scope="col">Kaugus km</th>
               </tr>
             </thead>

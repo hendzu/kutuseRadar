@@ -1,9 +1,9 @@
 <template>
-  <Line :data="chartData" :options="chartOptions" />
+  <LineChart :data="chartData" :options="chartOptions" />
 </template>
 
 <script>
-import { Line } from 'vue-chartjs'
+import { Line as LineChart } from 'vue-chartjs'
 import {
   Chart as ChartJS,
   LineElement,
@@ -19,7 +19,7 @@ ChartJS.register(LineElement, PointElement, LinearScale, TimeScale, Legend, Tool
 
 export default {
   name: 'PriceHistoryChart',
-  components: { Line },
+  components: { LineChart },
   props: {
     history: { type: Array, default: () => [] },
   },

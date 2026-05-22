@@ -2,19 +2,19 @@
   <div class="container text-center">
     <div class="row">
       <div class="col-6">
-        <div class="row">
+        <div class="row mb-3">
           <StationSelect
             :selected-station="stationId"
             :stations="stations"
             @event-selected-station-changed="stationId = $event"
           />
         </div>
-        <div class="row">
+        <div class="row mb-3">
           <div v-if="stationId === ''" class="container">
             <h1>Vali tankla</h1>
           </div>
           <div v-else class="container">
-            <div class="row">
+            <div class="row mb-3">
               <h2>
                 <img
                   :src="`data:image/*;base64,${stationDetail.chainLogo}`"
@@ -32,7 +32,7 @@
                 </span>
               </h2>
             </div>
-            <div class="row justify-content-center">
+            <div class="row justify-content-center mb-3">
               <div v-for="item in stationDetail.fuels" :key="item.fuelName" class="col-auto">
                 <div class="card p-3" style="width: 9rem">
                   <div class="border rounded p-2 text-center mb-2">
@@ -42,11 +42,22 @@
                 </div>
               </div>
             </div>
+            <div class="row justify-content-left mb-3">
+              <div class="col-4">
+                <button
+                  type="button"
+                  @click="navigationService.navigateToAddPriceView(stationId)"
+                  class="btn btn-outline-info"
+                >
+                  Lisa hind
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-6">
-        <div class="row">
+        <div class="row mb-3">
           <div class="col-4">
             <FuelSelect
               :selected-fuel="fuelId"
@@ -71,7 +82,7 @@
             <span>km</span>
           </div>
         </div>
-        <div class="row">
+        <div class="row mb-3">
           <table class="table">
             <thead>
               <tr>
@@ -115,7 +126,7 @@ import NavigationService from '@/navigation/NavigationService.js'
 import FuelSelect from '@/components/FuelSelect.vue'
 import FuelService from '@/api-services/FuelService.js'
 import AuthService from '@/auth/AuthService.js'
-import navigationService from "@/navigation/NavigationService.js";
+import navigationService from '@/navigation/NavigationService.js'
 
 export default {
   name: 'StationView',

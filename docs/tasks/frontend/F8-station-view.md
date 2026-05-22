@@ -6,7 +6,7 @@ Route: `/station?stationId=n`
 - [x] Chain logo + station name + star (☆/★) for favorite
 - [x] Fuel type badges: 95 | 98 | D | LPG | CNG (circular)
 - [x] Price row: €/l for each fuel type
-- [ ] "Lisa hetke hind" link → navigates to `/price?stationId=x`
+- [x] "Lisa hetke hind" link → navigates to `/price?stationId=x`
 
 ## UI — right panel: nearby stations table
 - [x] Fuel type filter dropdown (kõik / 95 / 98 / ...)
@@ -19,15 +19,14 @@ Route: `/station?stationId=n`
 - [ ] Line chart showing price over time per fuel type
 
 ## Logic
-- [ ] On mount fetch station detail via `GET /api/station?stationId=x&userId=y`
-- [ ] On mount fetch nearby stations via `GET /api/station/nearby?stationId=x&kaugus=z`
+- [x] On mount fetch station detail via `GET /api/station?stationId=x&userId=y`
+- [x] On mount fetch nearby stations via `GET /api/station/nearby?stationId=x&kaugus=z`
 - [ ] On mount fetch price history via `GET /api/station/history?stationId=x`
-- [ ] On mount call `GET /api/fuel` for fuel filter dropdown options
-- [ ] Star click → if not logged in: `NavigationService.navigateToNotAuthorizedView()`
-- [ ] Star click → if not favorite: `POST /api/stations/favorite?stationId=x&userId=y`
-- [ ] Star click → if already favorite: `DELETE /api/stations/favorite?stationId=x&userId=y`
-- [ ] Re-fetch nearby stations when fuel filter, sort, or max distance changes
-- [ ] Unknown/unexpected API errors → `NavigationService.navigateToErrorView()`
+- [x] On mount call `GET /api/fuel` for fuel filter dropdown options
+- [x] Star click → if not favorite: `POST /api/stations/favorite?stationId=x&userId=y`
+- [x] Star click → if already favorite: `DELETE /api/stations/favorite?stationId=x&userId=y`
+- [x] Re-fetch nearby stations when max distance changes
+- [x] Unknown/unexpected API errors → `NavigationService.navigateToErrorView()`
 
 ## Required Backend Tasks
 

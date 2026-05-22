@@ -10,6 +10,7 @@ import ee.bcs.backend.persistence.user.User;
 import ee.bcs.backend.persistence.user.UserMapper;
 import ee.bcs.backend.persistence.user.UserRepository;
 import lombok.AllArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 
 
@@ -35,11 +36,16 @@ public class UserService {
             throw new DataNotFoundException(USER_EXISTS.getMessage(), USER_EXISTS.getErrorCode());
         });
         Role role   = roleRepository.findByName("USER").orElseThrow();
+        User user = createAndMapUser(username, password, role);
+        userRepository.save(user);
+    }
+
+    private static @NonNull User createAndMapUser(String username, String password, Role role) {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
         user.setRole(role);
         user.setStatus(Status.ACTIVE.getCode());
-        userRepository.save(user);
+        return user;
     }
 }

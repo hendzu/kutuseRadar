@@ -9,17 +9,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
-
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class ChainService {
-private final ChainRepository chainRepository;
-private final ChainMapper chainMapper;
-public List<ChainOptionDto> getActiveChains() {
-List<Chain> chains = chainRepository.findByStatus(Status.ACTIVE.getCode());
-return chainMapper.toChainOptionDtos(chains);
-}
+    private final ChainRepository chainRepository;
+    private final ChainMapper chainMapper;
+
+    public List<ChainOptionDto> getActiveChains() {
+        List<Chain> chains = chainRepository.findByStatus(Status.ACTIVE.getCode());
+        return chainMapper.toChainOptionDtos(chains);
+    }
 
 }

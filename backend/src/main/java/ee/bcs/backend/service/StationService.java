@@ -22,6 +22,7 @@ import ee.bcs.backend.persistence.user.UserRepository;
 import ee.bcs.backend.persistence.usermembership.UserMembership;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -57,18 +58,9 @@ public class StationService {
 
     public List<StationOptionDto> getStations(Integer userId) {
         List<Station> stations = stationRepository.findByStatus(Status.ACTIVE.getCode());
-        List<StationOptionDto> result = stationMapper.toStationOptionDtos(stations);
-        if (userId != null) {
-            List<FavoriteStation> favorites = favoriteStationRepository.findFavoriteStationBy(userId);
-            for (StationOptionDto dto : result) {
-                for (FavoriteStation favorite : favorites) {
-                    if (favorite.getStation().getId().equals(dto.getStationId())) {
-                        dto.setFavorite(true);
-                    }
-                }
-            }
-        }
-        return result;
+        List<StationOptionDto> stationOptionDtos = stationMapper.toStationOptionDtos(stations);
+        addFavoriteStatusToStationOptionDtos(userId, stationOptionDtos);
+        return stationOptionDtos;
     }
 
     public MessageResponseDto addFavorite(Integer stationId, Integer userId) {
@@ -93,11 +85,7 @@ public class StationService {
                 favoriteStationRepository.existsByUser_IdAndStation_Id(userId, stationId);
 
 
-        String chainLogo = null;
-        ChainImage chainImage = chainImageRepository.findByChain_Id(station.getChain().getId()).orElse(null);
-        if (chainImage != null) {
-            chainLogo = Base64.getEncoder().encodeToString(chainImage.getLogo());
-        }
+        String chainLogo = getChainLogo(station);
 
         List<StationFuelPrice> prices = stationFuelPriceRepository
                 .findLatestPriceByStationId(stationId, Status.ACTIVE.getCode());
@@ -108,15 +96,10 @@ public class StationService {
 
         List<StationFuelPriceDto> fuels = getStationFuelPriceDtos(prices);
 
-        StationDto dto = new StationDto();
-        dto.setStationId(stationId);
-        dto.setStationName(station.getName());
-        dto.setStationFavorite(isFavorite);
-        dto.setChainName(station.getChain().getName());
-        dto.setChainLogo(chainLogo);
-        dto.setFuels(fuels);
-        return dto;
+        return createAndMapStationDto(stationId, station, isFavorite, chainLogo, fuels);
     }
+
+
 
 
     public List<StationLocationDto> getStationLocations(Integer userId) {
@@ -158,6 +141,64 @@ public class StationService {
             handleOtherStations(searchRadius, station, selectedStation, userMemberships, nearbyStations);
         }
         return nearbyStations;
+    }
+
+    public List<StationFuelPriceTimeDto> getPriceHistory(Integer stationId) {
+        List<StationFuelPrice> stationFuelPrices = stationFuelPriceRepository.findStationFuelPriceBy(stationId);
+        Map<String, StationFuelPriceTimeDto> stationPriceHistoryMapToFuelName = new LinkedHashMap<>();
+        createAndMapStationFuelPriceTimeDtos(stationFuelPrices, stationPriceHistoryMapToFuelName);
+        return new ArrayList<>(stationPriceHistoryMapToFuelName.values());
+    }
+    private static @NonNull StationDto createAndMapStationDto(Integer stationId, Station station, boolean isFavorite, String chainLogo, List<StationFuelPriceDto> fuels) {
+        StationDto dto = new StationDto();
+        dto.setStationId(stationId);
+        dto.setStationName(station.getName());
+        dto.setStationFavorite(isFavorite);
+        dto.setChainName(station.getChain().getName());
+        dto.setChainLogo(chainLogo);
+        dto.setFuels(fuels);
+        return dto;
+    }
+
+    private void addFavoriteStatusToStationOptionDtos(Integer userId, List<StationOptionDto> stationOptionDtos) {
+        if (userId != null) {
+            List<FavoriteStation> favorites = favoriteStationRepository.findFavoriteStationBy(userId);
+            for (StationOptionDto dto : stationOptionDtos) {
+                for (FavoriteStation favorite : favorites) {
+                    if (favorite.getStation().getId().equals(dto.getStationId())) {
+                        dto.setFavorite(true);
+                    }
+                }
+            }
+        }
+    }
+
+    private static void createAndMapStationFuelPriceTimeDtos(List<StationFuelPrice> stationFuelPrices, Map<String, StationFuelPriceTimeDto> stationPriceHistoryMapToFuelName) {
+        for (StationFuelPrice stationFuelPrice: stationFuelPrices){
+            String fuelName = stationFuelPrice.getStationFuel().getFuel().getName();
+
+            createMissingStationFuelPriceTimeDtos(stationPriceHistoryMapToFuelName, fuelName);
+
+            PriceTimeDto priceTimeDto = createAndMapPriceTimeDto(stationFuelPrice);
+            stationPriceHistoryMapToFuelName.get(fuelName).getFuelPrice().add(priceTimeDto);
+
+        }
+    }
+
+    private static @NonNull PriceTimeDto createAndMapPriceTimeDto(StationFuelPrice stationFuelPrice) {
+        PriceTimeDto priceTimeDto = new PriceTimeDto();
+        priceTimeDto.setPrice(stationFuelPrice.getPrice());
+        priceTimeDto.setTime(stationFuelPrice.getTime());
+        return priceTimeDto;
+    }
+
+    private static void createMissingStationFuelPriceTimeDtos(Map<String, StationFuelPriceTimeDto> stationPriceHistoryMapToFuelName, String fuelName) {
+        stationPriceHistoryMapToFuelName.computeIfAbsent(fuelName, name -> {
+            StationFuelPriceTimeDto stationFuelPriceTimeDto = new StationFuelPriceTimeDto();
+            stationFuelPriceTimeDto.setFuelName(name);
+            stationFuelPriceTimeDto.setFuelPrice(new ArrayList<>());
+            return stationFuelPriceTimeDto;
+        });
     }
 
     private void addBestPriceToList(List<StationFuelPrice> stationFuelPrices, List<UserMembership> userMemberships, List<BestPriceDto> bestPriceDtos) {
@@ -231,32 +272,24 @@ public class StationService {
         double lngA = stationA.getLng().doubleValue();
         double lngB = stationB.getLng().doubleValue();
         double theta = lngA - lngB;
+        return claculateDistance(latA, latB, theta);
+    }
+
+    private static double claculateDistance(double latA, double latB, double theta) {
         double dist = Math.sin(Math.toRadians(latA)) * Math.sin(Math.toRadians(latB)) + Math.cos(Math.toRadians(latA)) * Math.cos(Math.toRadians(latB)) * Math.cos(Math.toRadians(theta));
         dist = Math.acos(dist);
         dist = Math.toDegrees(dist);
         dist = dist * 60 * 1.1515;
         return dist;
     }
-
-    public List<StationFuelPriceTimeDto> getPriceHistory(Integer stationId) {
-        List<StationFuelPrice> stationFuelPrices = stationFuelPriceRepository.findStationFuelPriceBy(stationId);
-        Map<String, StationFuelPriceTimeDto> stationPriceHistoryMapToFuelName = new LinkedHashMap<>();
-        for (StationFuelPrice stationFuelPrice:stationFuelPrices){
-            String fuelName = stationFuelPrice.getStationFuel().getFuel().getName();
-
-            stationPriceHistoryMapToFuelName.computeIfAbsent(fuelName, name -> {
-                StationFuelPriceTimeDto stationFuelPriceTimeDto = new StationFuelPriceTimeDto();
-                stationFuelPriceTimeDto.setFuelName(name);
-                stationFuelPriceTimeDto.setFuelPrice(new ArrayList<>());
-                return stationFuelPriceTimeDto;
-            });
-
-            PriceTimeDto priceTimeDto = new PriceTimeDto();
-            priceTimeDto.setPrice(stationFuelPrice.getPrice());
-            priceTimeDto.setTime(stationFuelPrice.getTime());
-            stationPriceHistoryMapToFuelName.get(fuelName).getFuelPrice().add(priceTimeDto);
-
+    private @Nullable String getChainLogo(Station station) {
+        String chainLogo = null;
+        ChainImage chainImage = chainImageRepository.findByChain_Id(station.getChain().getId()).orElse(null);
+        if (chainImage != null) {
+            chainLogo = Base64.getEncoder().encodeToString(chainImage.getLogo());
         }
-        return new ArrayList<>(stationPriceHistoryMapToFuelName.values());
+        return chainLogo;
     }
+
+
 }

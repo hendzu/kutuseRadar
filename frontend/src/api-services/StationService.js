@@ -19,7 +19,7 @@ export default {
   deleteFavorite(stationId, userId) {
     return axios.delete('/api/station/favorite', { params: {stationId, userId}})
   },
-  findNearbyStations(stationID,searchRadius,userId){
-
+  findNearbyStations(stationId,searchRadius,userId){
+    return axios.get('/api/station/location/nearby',{params:{stationId,searchRadius,userId}})
   }
 }

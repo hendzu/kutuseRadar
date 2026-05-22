@@ -95,7 +95,7 @@ public class StationController {
                     """)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),})
-    public List<NearbyStationDto> getNearbyStations(Integer stationId, Integer searchRadius, @RequestParam(required = false) Integer userId){
+    public List<NearbyStationDto> getNearbyStations(@RequestParam Integer stationId,@RequestParam Integer searchRadius, @RequestParam(required = false) Integer userId){
 
         return stationService.getNearbyStations(stationId,searchRadius,userId);
     }@GetMapping("/history")

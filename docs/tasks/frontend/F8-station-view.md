@@ -11,8 +11,8 @@ Route: `/station?stationId=n`
 ## UI — right panel: nearby stations table
 - [x] Fuel type filter dropdown (kõik / 95 / 98 / ...)
 - [ ] Sort dropdown: "Hinna järgi" / "Läheduse järg"
-- [ ] Max kaugus km number input (default 4)
-- [ ] Table columns: tankla | kütus | hind | delta | kaugus
+- [x] Max kaugus km number input
+- [x] Table columns: tankla | kütus | hind | delta | kaugus
   - delta = price difference compared to current station
 
 ## UI — bottom: price history chart

@@ -54,6 +54,22 @@
               @event-selected-fuel-changed="fuelId = $event"
             />
           </div>
+          <div class="col-3">
+            <label for="distance">Kaugus</label>
+          </div>
+          <div class="col-2">
+            <input
+              @change="getNearbyStations"
+              v-model="radius"
+              type="number"
+              class="form-control form-control-sm"
+              id="distance"
+              min="0"
+            />
+          </div>
+          <div class="col-2">
+            <span>km</span>
+          </div>
         </div>
         <div class="row">
           <table class="table">
@@ -62,15 +78,26 @@
                 <th scope="col">Tanklad</th>
                 <th scope="col">Hind €/l</th>
                 <th scope="col">Δ</th>
-                <th scope="col">Kaugus</th>
+                <th scope="col">Kaugus km</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+              <tr v-for="station in nearby" :key="station.id">
+                <th scope="row" @click="navigationService.navigateToStationView(station.id)">
+                  {{ station.name }}
+                </th>
+                <td>
+                  {{ station.fuels.find((sf) => sf.fuelName === fuelName)?.price }}
+                </td>
+                <td>
+                  {{
+                    (
+                      stationDetail.fuels.find((df) => df.fuelName === fuelName)?.price -
+                      station.fuels.find((sf) => sf.fuelName === fuelName)?.price
+                    )?.toFixed(3)
+                  }}
+                </td>
+                <td>{{ station.distance.toFixed(3) }}</td>
               </tr>
             </tbody>
           </table>
@@ -83,11 +110,12 @@
 <script>
 import StationSelect from '@/components/StationSelect.vue'
 import StationService from '@/api-services/StationService.js'
+import stationService from '@/api-services/StationService.js'
 import NavigationService from '@/navigation/NavigationService.js'
 import FuelSelect from '@/components/FuelSelect.vue'
 import FuelService from '@/api-services/FuelService.js'
 import AuthService from '@/auth/AuthService.js'
-import stationService from '@/api-services/StationService.js'
+import navigationService from "@/navigation/NavigationService.js";
 
 export default {
   name: 'StationView',
@@ -107,8 +135,23 @@ export default {
           },
         ],
       },
-      stationId: '',
-      fuelId: '',
+      nearby: [
+        {
+          id: 0,
+          name: '',
+          distance: 0,
+          fuels: [
+            {
+              fuelName: 'string',
+              price: 0,
+            },
+          ],
+        },
+      ],
+      stationId: 0,
+      fuelId: 1,
+      fuelName: '',
+      radius: 0,
       stations: [
         {
           stationId: null,
@@ -125,6 +168,9 @@ export default {
     }
   },
   computed: {
+    navigationService() {
+      return navigationService
+    },
     isLoggedIn() {
       return AuthService.isLoggedIn()
     },
@@ -146,6 +192,7 @@ export default {
     },
     handleGetFuelTypesResponse(data) {
       this.fuels = data
+      this.getFuelName()
     },
     getFuelTypes() {
       FuelService.getFuelTypes()
@@ -167,19 +214,34 @@ export default {
       stationService.deleteFavorite(this.stationId, localStorage.getItem('userId'))
       this.stationDetail.stationFavorite = false
     },
-    getNearbyStations(){
-
-    }
+    getNearbyStations() {
+      console.log(this.stationId)
+      StationService.findNearbyStations(this.stationId, this.radius, localStorage.getItem('userId'))
+        .then((response) => (this.nearby = response.data))
+        .catch(() => NavigationService.navigateToErrorView())
+        .finally()
+    },
+    getFuelName() {
+      this.fuelName = this.fuels.find((f) => f.fuelId === this.fuelId)?.fuelName
+    },
   },
   beforeMount() {
     this.checkPathForStation()
     this.getStations()
     this.getFuelTypes()
+    this.getStationDetail()
   },
   watch: {
     stationId() {
       NavigationService.navigateToStationView(this.stationId)
+    },
+    '$route.params.stationId'(newId) {
+      this.stationId = newId
       this.getStationDetail()
+      this.getNearbyStations()
+    },
+    fuelId() {
+      this.getFuelName()
     },
   },
 }
